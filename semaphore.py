@@ -1,7 +1,8 @@
 import random
 import time
+from time import sleep
 
-import RPi.GPIO as GPIO
+from gpiozero import LED, PWMLED
 
 # Set the PWM output we are using for the LED
 RED = "BOARD12"
@@ -11,29 +12,20 @@ GREEN = "BOARD18"
 def setup():
     global red, amber, green
 
-    # GPIO uses broadcom numbering (GPIO numbers)
-    GPIO.setmode(GPIO.BOARD)
-    # Set the LED pin as an output
-    GPIO.setup(RED, GPIO.OUT)
-    GPIO.setup(AMBER, GPIO.OUT)
-    GPIO.setup(GREEN, GPIO.OUT)
-
-    # Start PWM on the LED pin at 200Hz with a# 100% duty cycle. At lower frequencies the LED
-    # would flicker even when we wanted it on solidly
-    red = GPIO.PWM(RED, 200)
-    amber = GPIO.PWM(RED, 200)
-    green = GPIO.PWM(RED, 200)
+    amber = PWMLED(AMBER)
+    green = LED(GREEN)
+    red = LED(RED)
 
     # Start at a brightness of 100%
-    red.start(100)
-    amber.start(100)
-    green.start(100)
+    green.on()
+    sleep(0.3)
+    green.off()
+    amber.value(100)
+
 
 def set_brightness(new_brightness):
-    # Sets brightness of the LED by changing duty cycle
-    red.ChangeDutyCycle(new_brightness)
-    amber.ChangeDutyCycle(new_brightness)
-    green.ChangeDutyCycle(new_brightness)
+    # Sets brightness of the LED
+    amber.value(new_brightness)
 
 def flicker():
     # We want a random brightness between 0% and 100%.
@@ -53,7 +45,10 @@ def loop():
     except KeyboardInterrupt:
        pass
     finally:
-       GPIO.cleanup()
+        red.on()
+        sleep(0.3)
+        red.off()
+
 
 # setup the hardware
 setup()
