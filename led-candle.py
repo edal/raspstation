@@ -13,8 +13,8 @@ def setup():
     # Set the LED pin as an output
     GPIO.setup(LED, GPIO.OUT)
     # Start PWM on the LED pin at 200Hz with a# 100% duty cycle. At lower frequencies the LED
-    # would flicker even when we wanted it on
-    solidlypwm = GPIO.PWM(LED, 200)
+    # would flicker even when we wanted it on solidly
+    pwm = GPIO.PWM(LED, 200)
 
     # Start at a brightness of 100%
     pwm.start(100)
