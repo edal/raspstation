@@ -12,7 +12,7 @@ def setup():
     global red, amber, green
 
     # GPIO uses broadcom numbering (GPIO numbers)
-    GPIO.setmode(GPIO.BCM)
+    GPIO.setmode(GPIO.BOARD)
     # Set the LED pin as an output
     GPIO.setup(RED, GPIO.OUT)
     GPIO.setup(AMBER, GPIO.OUT)
