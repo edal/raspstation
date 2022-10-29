@@ -117,25 +117,40 @@ heart = (
 )
 lcd.create_char(6, heart)
 ####
-
+prevTemp=0
+prevHum=0
 def printStatus(temp, humidity):
     t = '{:0.1f}'.format(temp)
     h = '{:.0f}'.format(humidity)
+    tempChar=''
+    if (temp > prevTemp):
+        tempChar=UP
+    else:
+        tempChar=DOWN
+
+    humiChar='='
+    if (humidity > prevHum):
+        humiChar=UP
+    else:
+        humiChar=DOWN
+
     # Write a string on first line and move to next line
     lcd.clear()
     lcd.write_string(HEART + '  Funguistation ' + HAPPY + ' ' + HEART)
     #lcd.crlf()
     lcd.cursor_pos = (2, 0)
-    lcd.write_string(' ' + TEMP + ' ' + t + CELSIUS + UP)
+    lcd.write_string(' ' + TEMP + ' ' + t + CELSIUS + tempChar)
     lcd.write_string('    ')
-    lcd.write_string(DROP + ' ' + h + '%' + DOWN)
+    lcd.write_string(DROP + ' ' + h + '%' + humiChar)
+    prevTemp=temp
+    prevHum=humidity
 
 # Set sensor type : Options are DHT11,DHT22 or AM2302
 sensor=Adafruit_DHT.DHT11
 
 
 def loop():
-   # Use read_retry method. This will retry up to 15 times to
+    # Use read_retry method. This will retry up to 15 times to
     # get a sensor reading (waiting 2 seconds between each retry).
     humidity, temperature = Adafruit_DHT.read_retry(sensor, TEMP_PIN)
 
