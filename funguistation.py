@@ -124,7 +124,7 @@ def printStatus(temp, humidity):
     global prevHum
     t = '{:0.1f}'.format(temp)
     h = '{:.0f}'.format(humidity)
-    tempChar=''
+    tempChar='='
     if (temp > prevTemp):
         tempChar=UP
     else:
