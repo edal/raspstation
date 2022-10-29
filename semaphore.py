@@ -5,27 +5,27 @@ from time import sleep
 from gpiozero import LED, PWMLED
 
 # Set the PWM output we are using for the LED
-RED = "BOARD12"
-AMBER = "BOARD16"
+RED = "BOARD16"
+AMBER = "BOARD12"
 GREEN = "BOARD18"
 
 def setup():
     global red, amber, green
 
     amber = PWMLED(AMBER)
-    green = LED(GREEN)
-    red = LED(RED)
+    green = PWMLED(GREEN)
+    red = PWMLED(RED)
 
     # Start at a brightness of 100%
     green.on()
     sleep(0.3)
     green.off()
-    amber.value(100)
+    amber.value=1.0
 
 
 def set_brightness(new_brightness):
     # Sets brightness of the LED
-    amber.value(new_brightness)
+    amber.value=new_brightness
 
 def flicker():
     # We want a random brightness between 0% and 100%.
@@ -33,8 +33,8 @@ def flicker():
     # between 0.01 and 0.1 seconds to get a nice flicker
     # effect. Play with these values to make the effect
     # suit your liking
-    set_brightness(random.randrange(0, 100))
-    time.sleep(random.randrange(1, 10) *0.01)
+    set_brightness(random.random())
+    time.sleep(0.1-(random.random()*0.1))
 
 # The wrapper around the flicker function makes sure the
 # GPIO hardware is cleaned up when the user presses CTRL-C
