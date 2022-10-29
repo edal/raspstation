@@ -119,8 +119,8 @@ lcd.create_char(6, heart)
 ####
 
 def printStatus(temp, humidity):
-    t = '{0:0.1f}'.format(temp)
-    h = '{0:0i}'.format(humidity)
+    t = '{:0.1f}'.format(temp)
+    h = '{:.0f}'.format(humidity)
     # Write a string on first line and move to next line
     lcd.clear()
     lcd.write_string(HEART + '  Funguistation ' + HAPPY + ' ' + HEART)
@@ -143,7 +143,7 @@ def loop():
     # the Pi might fail to get a valid reading. So check if readings are valid.
     if humidity is not None and temperature is not None:
         print('Temp={0:0.1f}ºC  Humidity={1:0.1f}%'.format(temperature, humidity))
-        printStatus()
+        printStatus(temperature, humidity)
     else:
         print('Failed to get reading. Try again!')
 
