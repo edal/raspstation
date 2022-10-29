@@ -175,3 +175,8 @@ except KeyboardInterrupt:
     pass
 finally:
     print('Exiting')
+    # Switch off backlight
+    lcd.backlight_enabled = False
+    # Clear the LCD screen
+    lcd.close(clear=True)
+
