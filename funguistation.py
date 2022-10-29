@@ -125,13 +125,17 @@ def printStatus(temp, humidity):
     t = '{:0.1f}'.format(temp)
     h = '{:.0f}'.format(humidity)
     tempChar='='
-    if (temp > prevTemp):
+    if (temp == prevTemp):
+        tempChar='='
+    elif (temp > prevTemp):
         tempChar=UP
     else:
         tempChar=DOWN
 
     humiChar='='
-    if (humidity > prevHum):
+    if (humidity == prevHum):
+        humiChar='='
+    elif (humidity > prevHum):
         humiChar=UP
     else:
         humiChar=DOWN
