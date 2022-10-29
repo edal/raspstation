@@ -120,6 +120,8 @@ lcd.create_char(6, heart)
 prevTemp=0
 prevHum=0
 def printStatus(temp, humidity):
+    global prevTemp
+    global prevHum
     t = '{:0.1f}'.format(temp)
     h = '{:.0f}'.format(humidity)
     tempChar=''
