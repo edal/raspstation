@@ -119,14 +119,16 @@ lcd.create_char(6, heart)
 ####
 
 def printStatus(temp, humidity):
+    t = '{0:0.1f}'.format(temp)
+    h = '{0:0i}'.format(humidity)
     # Write a string on first line and move to next line
     lcd.clear()
     lcd.write_string(HEART + '  Funguistation ' + HAPPY + ' ' + HEART)
     #lcd.crlf()
     lcd.cursor_pos = (2, 0)
-    lcd.write_string(' ' + TEMP + ' ' + temp + CELSIUS + UP)
+    lcd.write_string(' ' + TEMP + ' ' + t + CELSIUS + UP)
     lcd.write_string('    ')
-    lcd.write_string(DROP + ' ' + humidity + '%' + DOWN)
+    lcd.write_string(DROP + ' ' + h + '%' + DOWN)
 
 # Set sensor type : Options are DHT11,DHT22 or AM2302
 sensor=Adafruit_DHT.DHT11
@@ -141,7 +143,7 @@ def loop():
     # the Pi might fail to get a valid reading. So check if readings are valid.
     if humidity is not None and temperature is not None:
         print('Temp={0:0.1f}ºC  Humidity={1:0.1f}%'.format(temperature, humidity))
-        printStatus('{0:0.1f}'.format(temperature), '{0:0f}'.format(humidity))
+        printStatus()
     else:
         print('Failed to get reading. Try again!')
 
