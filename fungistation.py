@@ -164,8 +164,8 @@ def printStatus(temp, humidity):
         lcd.clear()
         splash=False
 
+    lcd.cursor_pos = (0, 0)
     lcd.write_string(HEART + '   Fungistation ' + HAPPY + ' ' + HEART)
-    #lcd.crlf()
     lcd.cursor_pos = (2, 0)
     lcd.write_string(' ' + TEMP + ' ' + t + CELSIUS + tempChar)
     lcd.write_string('    ')
