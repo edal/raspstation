@@ -178,11 +178,6 @@ def loop():
     # Reading the DHT11 is very sensitive to timings and occasionally
     # the Pi might fail to get a valid reading. So check if readings are valid.
     if humidity is not None and temperature is not None:
-        print('Temp={0:0.1f}ºC  Humidity={1:0.1f}% Fan={2} Heat={3}'.format(temperature, humidity, fanStatus, heatStatus))
-        # List of strings
-        row_contents = [time.strftime('%d/%m/%y %H:%M:%S'),'{:0.1f}'.format(temperature),'{:0.1f}'.format(humidity),fanStatus,heatStatus]
-        # Append a list as new line to an old csv file
-        append_list_as_row('stats.csv', row_contents)
 
         if (temperature < MIN_TEMP):
             enableHeat()
@@ -195,6 +190,11 @@ def loop():
             enableFan()
 
         printStatus(temperature, humidity, heatStatus, fanStatus)
+        print('Temp={0:0.1f}ºC  Humidity={1:0.1f}% Fan={2} Heat={3}'.format(temperature, humidity, fanStatus, heatStatus))
+        # List of strings
+        row_contents = [time.strftime('%d/%m/%y %H:%M:%S'),'{:0.1f}'.format(temperature),'{:0.1f}'.format(humidity),fanStatus,heatStatus]
+        # Append a list as new line to an old csv file
+        append_list_as_row('stats.csv', row_contents)
     else:
         print('Failed to get reading. Try again!')
 
