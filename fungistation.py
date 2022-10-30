@@ -13,7 +13,7 @@ TEMP_PIN=23 # BOARD16
 lcdmode = 'i2c'
 cols = 20
 rows = 4
-charmap = 'A00'
+charmap = 'A02'
 i2c_expander = 'PCF8574'
 
 # Generally 27 is the address;Find yours using: i2cdetect -y 1
@@ -45,7 +45,6 @@ happy = (
      0b00000,
  )
 lcd.create_char(0, happy)
-lcd.write_string('\x00')
 temp = (
 0b00100,
 0b01010,
@@ -116,9 +115,27 @@ heart = (
 	0b00000
 )
 lcd.create_char(6, heart)
-####
+#### Global vars
 prevTemp=0
 prevHum=0
+
+# Method definition
+
+def splashScreen():
+    delay=0.2
+    lcd.clear()
+    for i in range(10):
+        lcd.cursor_pos = (0, i)
+        lcd.write_string(HEART)
+        lcd.cursor_pos = (0, 19-i)
+        lcd.write_string(HEART)
+        time.sleep(delay)
+    lcd.cursor_pos = (0, 0)
+    lcd.write_string(HEART + '   Fungistation   ' + HEART)
+
+
+
+
 def printStatus(temp, humidity):
     global prevTemp
     global prevHum
@@ -142,7 +159,7 @@ def printStatus(temp, humidity):
 
     # Write a string on first line and move to next line
     lcd.clear()
-    lcd.write_string(HEART + '  Funguistation ' + HAPPY + ' ' + HEART)
+    lcd.write_string(HEART + '   Fungistation ' + HAPPY + ' ' + HEART)
     #lcd.crlf()
     lcd.cursor_pos = (2, 0)
     lcd.write_string(' ' + TEMP + ' ' + t + CELSIUS + tempChar)
@@ -169,6 +186,7 @@ def loop():
         print('Failed to get reading. Try again!')
 
 try:
+    splashScreen()
     while True:
         loop()
 except KeyboardInterrupt:
