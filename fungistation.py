@@ -189,6 +189,7 @@ try:
     splashScreen()
     while True:
         loop()
+        time.sleep(10)
 except KeyboardInterrupt:
     pass
 finally:
