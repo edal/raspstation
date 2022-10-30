@@ -119,6 +119,7 @@ lcd.create_char(6, heart)
 prevTemp=0
 prevHum=0
 
+splash=True
 # Method definition
 
 def splashScreen():
@@ -139,6 +140,8 @@ def splashScreen():
 def printStatus(temp, humidity):
     global prevTemp
     global prevHum
+    global splash
+
     t = '{:0.1f}'.format(temp)
     h = '{:.0f}'.format(humidity)
     tempChar='='
@@ -157,8 +160,10 @@ def printStatus(temp, humidity):
     else:
         humiChar=DOWN
 
-    # Write a string on first line and move to next line
-    lcd.clear()
+    if (splash):
+        lcd.clear()
+        splash=False
+
     lcd.write_string(HEART + '   Fungistation ' + HAPPY + ' ' + HEART)
     #lcd.crlf()
     lcd.cursor_pos = (2, 0)
