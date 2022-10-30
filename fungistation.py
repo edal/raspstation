@@ -1,5 +1,6 @@
 import random
 import time
+from csv import writer
 from time import sleep
 
 import Adafruit_DHT
@@ -54,12 +55,11 @@ DOWN=chr(4)
 CELSIUS=chr(5)
 HEART=chr(6)
 SAD=chr(7)
+HEAT=chr(8)
 
 
 happy = (0b00000,0b01010,0b01010,0b00000,0b10001,0b10001,0b01110,0b00000)
 lcd.create_char(0, happy)
-sad = (0b00000,	0b01010,0b01010,0b00000,0b01110,0b10001,0b10001,0b00000)
-lcd.create_char(7, sad)
 temp = (0b00100,0b01010,0b01010,0b01110,0b01110,0b11111,0b11111,0b01110)
 lcd.create_char(1, temp)
 drop = (0b00100,0b00100,0b01010,0b01010,0b10001,0b10001,0b10001,0b01110)
@@ -72,6 +72,9 @@ celsius = (    0b00000,	0b00100,	0b01010,	0b00100,	0b00000,	0b00000,	0b00000,	0b
 lcd.create_char(5, celsius)
 heart = (    0b00000,	0b01010,	0b11111,	0b11111,	0b01110,	0b00100,	0b00000,	0b00000)
 lcd.create_char(6, heart)
+sad = (0b00000,	0b01010,0b01010,0b00000,0b01110,0b10001,0b10001,0b00000)
+lcd.create_char(7, sad)
+
 #### Global vars
 prevTemp=0
 prevHum=0
@@ -80,6 +83,14 @@ fanStatus=False
 
 splash=True
 # Method definition
+
+def append_list_as_row(file_name, list_of_elem):
+    # Open file in append mode
+    with open(file_name, 'a+', newline='') as write_obj:
+        # Create a writer object from csv module
+        csv_writer = writer(write_obj)
+        # Add contents of list as last row in the csv file
+        csv_writer.writerow(list_of_elem)
 
 def splashScreen():
     delay=0.2
@@ -168,6 +179,11 @@ def loop():
     # the Pi might fail to get a valid reading. So check if readings are valid.
     if humidity is not None and temperature is not None:
         print('Temp={0:0.1f}ºC  Humidity={1:0.1f}% Fan={2} Heat={3}'.format(temperature, humidity, fanStatus, heatStatus))
+        # List of strings
+        row_contents = [time.strftime('%d/%m/%y %H:%M:%S'),'{:0.1f}'.format(temperature),'{:0.1f}'.format(humidity),fanStatus,heatStatus]
+        # Append a list as new line to an old csv file
+        append_list_as_row('stats.csv', row_contents)
+
         if (temperature < MIN_TEMP):
             enableHeat()
             disableFan()
