@@ -172,7 +172,7 @@ def disableFan():
     fan.off()
     fanStatus=False
 
-def handle_exit():
+def handle_exit(signum, frame):
     print('Exiting')
     # Switch off backlight
     lcd.backlight_enabled = False
