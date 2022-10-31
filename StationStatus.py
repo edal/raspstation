@@ -9,7 +9,7 @@ class StationStatus:
 
 
     # Default constructor
-    def __init__(self, temperature, humidity, isFanEnabled, fanScheduledTicks, isHeatEnabled, ifHumidifierEnabled, humidifierScheduledTicks):
+    def __init__(self, temperature, humidity, isFanEnabled, fanScheduledTicks, isHeatEnabled, ifHumidifierEnabled=False, humidifierScheduledTicks=0):
         self.temperature=temperature
         self.humidity=humidity
         self.isFanEnabled=isFanEnabled
@@ -18,6 +18,3 @@ class StationStatus:
         self.ifHumidifierEnabled=ifHumidifierEnabled
         self.humidifierScheduledTicks=humidifierScheduledTicks
 
-    # Constructor without humidifier
-    def __init__(self, temperature, humidity, isFanEnabled, fanScheduledTicks, isHeatEnabled):
-        self.__init__(self, temperature, humidity, isFanEnabled, fanScheduledTicks, isHeatEnabled, False, 0)
