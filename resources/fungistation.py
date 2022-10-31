@@ -180,7 +180,7 @@ def handle_exit(signum, frame):
     lcd.backlight_enabled = False
     # Clear the LCD screen
     lcd.close(clear=True)
-    exit()
+    exit(0)
 
 signal.signal(signal.SIGTERM, handle_exit)
 signal.signal(signal.SIGINT, handle_exit)
@@ -208,7 +208,7 @@ def loop():
         # List of strings
         row_contents = [time.strftime('%d/%m/%y %H:%M:%S'),'{:0.1f}'.format(temperature),'{:0.1f}'.format(humidity),fanStatus,heatStatus]
         # Append a list as new line to an old csv file
-        append_list_as_row('stats.csv', row_contents)
+        append_list_as_row('/home/funghi/raspstation/stats.csv', row_contents)
     else:
         print('Failed to get reading. Try again!')
 
