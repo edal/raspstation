@@ -1,4 +1,5 @@
 import random
+import signal
 import time
 from csv import writer
 from time import sleep
@@ -171,6 +172,16 @@ def disableFan():
     fan.off()
     fanStatus=False
 
+def handle_exit():
+    print('Exiting')
+    # Switch off backlight
+    lcd.backlight_enabled = False
+    # Clear the LCD screen
+    lcd.close(clear=True)
+
+signal.signal(signal.SIGTERM, handle_exit)
+signal.signal(signal.SIGINT, handle_exit)
+
 def loop():
     # Use read_retry method. This will retry up to 15 times to
     # get a sensor reading (waiting 2 seconds between each retry).
@@ -206,9 +217,6 @@ try:
 except KeyboardInterrupt:
     pass
 finally:
-    print('Exiting')
-    # Switch off backlight
-    lcd.backlight_enabled = False
-    # Clear the LCD screen
-    lcd.close(clear=True)
+    handle_exit()
+
 
