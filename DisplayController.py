@@ -30,6 +30,7 @@ class DisplayController:
         self.lcd = i2c.CharLCD(i2c_expander, address, port=port, charmap=charmap, cols=cols, rows=rows)
 
         self.__defineCustomCharacters()
+        self.splashScreen()
 
     # Custom animation to serve as splash screen
     def splashScreen(self):
