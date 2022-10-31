@@ -37,7 +37,7 @@ def doCycle():
     logging.info(status)
 
 # Nicely handle exit
-def handle_exit(signum, frame):
+def handle_exit(signum=0, frame=0):
     print('Exiting')
     exit(0)
 
