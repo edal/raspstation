@@ -1,7 +1,7 @@
 import logging
 
-import StationParameters
-import StationStatus
+from StationParameters import StationParameters
+from StationStatus import StationStatus
 
 
 class StationController:

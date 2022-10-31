@@ -2,9 +2,9 @@ import logging
 import signal
 import time
 
-import DisplayController
-import StationController
-import StationParameters
+from DisplayController import DisplayController
+from StationController import StationController
+from StationParameters import StationParameters
 
 # PARAMETERS
 MIN_TEMP=23.0

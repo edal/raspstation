@@ -1,15 +1,15 @@
 import logging
 import time
 
-from RPLCD import i2c
+from RPLCD import CharLCD, i2c
 
-import StationParameters
-import StationStatus
+from StationParameters import StationParameters
+from StationStatus import StationStatus
 
 
 class DisplayController:
     # Internal state
-    lcd: CharLCD
+    lcd: i2c.CharLCD
 
     status: StationStatus = None
     previousStatus: StationStatus = None
