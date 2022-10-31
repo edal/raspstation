@@ -49,6 +49,9 @@ class DisplayController:
         t = '{:0.1f}'.format(status.temperature)
         h = '{:.0f}'.format(status.humidity)
 
+        if (self.previousStatus is None):
+            self.previousStatus = status
+
         tempChar='='
         if (status.temperature == self.previousStatus.temperature):
             tempChar='='
