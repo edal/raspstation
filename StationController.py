@@ -32,6 +32,9 @@ class StationController:
         return self.status
 
 
+    def tearDown(self):
+        # disableFan, Heat and humidifier
+        logging.debug("Tearing down station controller")
 
 
 

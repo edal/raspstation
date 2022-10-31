@@ -126,3 +126,9 @@ class DisplayController:
         self.lcd.create_char(HEART_INDEX, heart)
         sad = (0b00000,	0b01010,0b01010,0b00000,0b01110,0b10001,0b10001,0b00000)
         self.lcd.create_char(SAD_INDEX, sad)
+
+    def tearDown(self):
+        # Switch off backlight
+        self.lcd.backlight_enabled = False
+        # Clear the LCD screen
+        self.lcd.close(clear=True)

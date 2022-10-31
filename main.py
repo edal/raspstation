@@ -38,7 +38,8 @@ def doCycle():
 
 # Nicely handle exit
 def handle_exit(signum=0, frame=0):
-    print('Exiting')
+    display.tearDown()
+    controller.tearDown()
     exit(0)
 
 # Link handle_exit method with kill signals
