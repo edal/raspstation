@@ -30,20 +30,20 @@ class DisplayController:
         self.lcd = i2c.CharLCD(i2c_expander, address, port=port, charmap=charmap, cols=cols, rows=rows)
 
         self.__defineCustomCharacters()
-        self.splashScreen()
+        self.__splashScreen()
 
     # Custom animation to serve as splash screen
-    def splashScreen(self):
+    def __splashScreen(self):
         delay=0.2
         self.lcd.clear()
         for i in range(10):
             self.lcd.cursor_pos = (0, i)
-            self.lcd.write_string(self.HEART)
+            self.lcd.write_string(HEART)
             self.lcd.cursor_pos = (0, 19-i)
-            self.lcd.write_string(self.HEART)
+            self.lcd.write_string(HEART)
             time.sleep(delay)
         self.lcd.cursor_pos = (0, 0)
-        self.lcd.write_string(self.HEART + '   Fungistation   ' + self.HEART)
+        self.lcd.write_string(HEART + '   Fungistation   ' + HEART)
 
     # Method to show the provided status
     def syncDisplay(self, status: StationStatus, parameters: StationParameters):
