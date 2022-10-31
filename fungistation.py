@@ -174,10 +174,13 @@ def disableFan():
 
 def handle_exit(signum, frame):
     print('Exiting')
+    disableFan()
+    disableHeat()
     # Switch off backlight
     lcd.backlight_enabled = False
     # Clear the LCD screen
     lcd.close(clear=True)
+    exit()
 
 signal.signal(signal.SIGTERM, handle_exit)
 signal.signal(signal.SIGINT, handle_exit)
