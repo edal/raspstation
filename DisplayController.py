@@ -1,7 +1,7 @@
 import logging
 import time
 
-from RPLCD import CharLCD, i2c
+from RPLCD.i2c import CharLCD
 
 from StationParameters import StationParameters
 from StationStatus import StationStatus
@@ -9,7 +9,7 @@ from StationStatus import StationStatus
 
 class DisplayController:
     # Internal state
-    lcd: i2c.CharLCD
+    lcd: CharLCD
 
     status: StationStatus = None
     previousStatus: StationStatus = None
@@ -27,7 +27,7 @@ class DisplayController:
         i2c_expander = 'PCF8574'
         address = 0x27
         port = 1
-        self.lcd = i2c.CharLCD(i2c_expander, address, port=port, charmap=charmap, cols=cols, rows=rows)
+        self.lcd = CharLCD(i2c_expander, address, port=port, charmap=charmap, cols=cols, rows=rows)
 
         self.__defineCustomCharacters()
         self.__splashScreen()
@@ -98,12 +98,14 @@ class DisplayController:
         TEMP=chr(TEMP_INDEX)
         DROP_INDEX=2
         DROP=chr(DROP_INDEX)
-        UP_INDEX=3
-        UP=chr(UP_INDEX)
+        #UP_INDEX=3
+        #UP=chr(UP_INDEX)
+        UP='\x5E'
         DOWN_INDEX=4
         DOWN=chr(DOWN_INDEX)
-        CELSIUS_INDEX=5
-        CELSIUS=chr(CELSIUS_INDEX)
+        #CELSIUS_INDEX=5
+        #CELSIUS=chr(CELSIUS_INDEX)
+        CELSIUS='\xDF'
         HEART_INDEX=6
         HEART=chr(HEART_INDEX)
         SAD_INDEX=7
@@ -116,12 +118,12 @@ class DisplayController:
         self.lcd.create_char(TEMP_INDEX, temp)
         drop = (0b00100,0b00100,0b01010,0b01010,0b10001,0b10001,0b10001,0b01110)
         self.lcd.create_char(DROP_INDEX, drop)
-        up = (	0b00000,	0b00000,	0b00100,	0b01110,	0b11111,	0b00000,	0b00000,	0b00000)
-        self.lcd.create_char(UP_INDEX, up)
+        #up = (	0b00000,	0b00000,	0b00100,	0b01110,	0b11111,	0b00000,	0b00000,	0b00000)
+        #self.lcd.create_char(UP_INDEX, up)
         down = (	0b00000,	0b00000,	0b00000,	0b11111,	0b01110,	0b00100,	0b00000,	0b00000)
         self.lcd.create_char(DOWN_INDEX, down)
-        celsius = (    0b00000,	0b00100,	0b01010,	0b00100,	0b00000,	0b00000,	0b00000,	0b00000)
-        self.lcd.create_char(CELSIUS_INDEX, celsius)
+        #celsius = (    0b00000,	0b00100,	0b01010,	0b00100,	0b00000,	0b00000,	0b00000,	0b00000)
+        #self.lcd.create_char(CELSIUS_INDEX, celsius)
         heart = (    0b00000,	0b01010,	0b11111,	0b11111,	0b01110,	0b00100,	0b00000,	0b00000)
         self.lcd.create_char(HEART_INDEX, heart)
         sad = (0b00000,	0b01010,0b01010,0b00000,0b01110,0b10001,0b10001,0b00000)

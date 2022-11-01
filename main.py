@@ -24,8 +24,8 @@ def init():
     global display,controller,parameters
 
     # Initialize main vars
-    display = DisplayController()
     parameters = StationParameters(MIN_TEMP, MAX_TEMP, MIN_HUMIDITY, MAX_HUMIDITY)
+    display = DisplayController()
     controller = StationController(TEMP_GPIO, FAN_GPIO, FAN_PWM_GPIO, HEAT_GPIO, parameters)
 
 
