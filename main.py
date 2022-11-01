@@ -36,7 +36,6 @@ def doCycle():
     controller.doControlCycle()
     status = controller.getExecutionStatus()
     display.syncDisplay(status, parameters)
-    logging.info(status)
 
 # Nicely handle exit
 def handle_exit(signum=0, frame=0):

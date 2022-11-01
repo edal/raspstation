@@ -33,7 +33,6 @@ class StationController:
         self.parameters = parameters
 
     def doControlCycle(self):
-        logging.debug('New controller cycle')
         # Get current tick/cycle
         self.tick=(self.tick+1) % self.MAX_TICKS
 
@@ -45,7 +44,6 @@ class StationController:
 
 
     def getExecutionStatus(self):
-        logging.debug('Getting execution status')
         return self.status
 
 
