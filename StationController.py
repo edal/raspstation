@@ -41,6 +41,7 @@ class StationController:
             h, t = self.getSensorReading()
             self.status.temperature = t
             self.status.humidity = h
+            logging.debug('New data read: Temp: %s Humidity: %s', '{:0.1f}'.format(t), '{:.0f}'.format(h))
 
 
     def getExecutionStatus(self):
