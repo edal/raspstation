@@ -87,7 +87,7 @@ class DisplayController:
             FACE=SAD
 
         heart_array = [HEART, ' ']
-        heart_sprite = heart_array[self.tick%(len(heart_array)-1)]
+        heart_sprite = heart_array[self.tick%(len(heart_array))]
 
         self.lcd.cursor_pos = (0, 0)
         self.lcd.write_string(heart_sprite + '   Fungistation ' + FACE + ' ' + heart_sprite)
