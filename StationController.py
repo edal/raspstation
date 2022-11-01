@@ -20,7 +20,7 @@ class StationController:
     MAX_TICKS: int = max(DEFAULT_FAN_TICKS, DEFAUL_SENSOR_TICKS)
 
     # internal state
-    status: StationStatus = None
+    status: StationStatus = StationStatus(0.0, 0, False, 0, False)
     parameters: StationParameters = None
     tick: int = 0
 
