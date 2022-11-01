@@ -96,7 +96,7 @@ class DisplayController:
         self.lcd.write_string('    ')
         self.lcd.write_string(DROP + ' ' + h + '%' + humiChar)
 
-        self.prevStatus = status
+        self.previousStatus = status
 
 
     # LCD allows to store 8 cutsom characters. Let's define there
