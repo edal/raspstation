@@ -17,6 +17,10 @@ class DisplayController:
     clearedSplash=False
 
 
+    MAX_TICKS: int = 10
+    tick: int = 0
+
+
     def __init__(self):
         logging.debug('DisplayController init')
         # Initialise the LCD
@@ -47,6 +51,10 @@ class DisplayController:
 
     # Method to show the provided status
     def syncDisplay(self, status: StationStatus, parameters: StationParameters):
+        # Get current tick/cycle
+        self.tick=(self.tick+1) % self.MAX_TICKS
+
+
         t = '{:0.1f}'.format(status.temperature)
         h = '{:.0f}'.format(status.humidity)
 
@@ -78,8 +86,11 @@ class DisplayController:
         else:
             FACE=SAD
 
+        heart_array = [HEART, ' ']
+        heart_sprite = heart_array[self.tick%(len(heart_array)-1)]
+
         self.lcd.cursor_pos = (0, 0)
-        self.lcd.write_string(HEART + '   Fungistation ' + FACE + ' ' + HEART)
+        self.lcd.write_string(heart_sprite + '   Fungistation ' + FACE + ' ' + heart_sprite)
         self.lcd.cursor_pos = (2, 0)
         self.lcd.write_string(' ' + TEMP + ' ' + t + CELSIUS + tempChar)
         self.lcd.write_string('    ')
