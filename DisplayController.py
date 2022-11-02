@@ -150,6 +150,7 @@ class DisplayController:
         self.lcd.create_char(SAD_INDEX, sad)
 
     def tearDown(self):
+        logging.debug("Tearing down display controller")
         # Switch off backlight
         self.lcd.backlight_enabled = False
         # Clear the LCD screen
