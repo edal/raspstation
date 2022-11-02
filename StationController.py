@@ -42,6 +42,7 @@ class StationController:
         GPIO.setup(self.FAN_PWM_GPIO, GPIO.OUT)
         GPIO.setup(self.FAN_GPIO, GPIO.OUT)
         GPIO.setup(self.HEAT_GPIO, GPIO.OUT)
+        self.fan_speed = GPIO.PWM(self.FAN_PWM_GPIO, 0)
 
     def doControlCycle(self):
         # Get current tick/cycle
@@ -98,10 +99,10 @@ class StationController:
         if (not self.status.isFanEnabled):
             logging.debug('Starting fans')
 
-            if (speed <= 0):
+            if (speed <= 0.0):
                 speed = self.DEFAULT_FAN_SPEED
 
-            self.fan_speed = GPIO.PWM(self.FAN_PWM_GPIO, speed)
+            self.fan_speed.ChangeDutyCycle(speed)
             GPIO.output(self.FAN, GPIO.HIGH) # on
             self.status.isFanEnabled=True
 
