@@ -92,10 +92,10 @@ class DisplayController:
         self.lcd.write_string('    ')
         self.lcd.write_string(DROP + ' ' + h + '%' + humiChar)
 
-
+        logging.debug('Fan scheduled ticks %s', status.fanScheduledTicks)
         if (status.fanScheduledTicks > 0):
             self.lcd.cursor_pos = (3, 0)
-            self.lcd.write_string(' FAN: ' + status.fanScheduledTicks)
+            #self.lcd.write_string(' FAN: ' + status.fanScheduledTicks)
         else:
             self.lcd.cursor_pos = (3, 0)
             self.lcd.write_string('        ')
