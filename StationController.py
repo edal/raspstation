@@ -82,11 +82,9 @@ class StationController:
             if (h < self.parameters.MIN_HUMIDITY):
                 logging.debug("Humidity is lower than MIN %s", self.parameters.MIN_HUMIDITY)
                 self.__scheduleHumidifier()
-                self.stopFan()
 
             if (t >= self.parameters.MIN_HUMIDITY and t < self.parameters.MAX_HUMIDITY):
                 logging.debug("Humidity is in range MIN-MAX %s-%s", self.parameters.MIN_HUMIDITY, self.parameters.MAX_HUMIDITY)
-                self.stopFan()
 
             if (t >= self.parameters.MIN_HUMIDITY):
                 logging.debug("Humidity is greater than MAX %s", self.parameters.MIN_HUMIDITY)
