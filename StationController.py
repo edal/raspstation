@@ -1,6 +1,7 @@
 import logging
 
 import Adafruit_DHT
+from gpiozero import LED, PWMLED
 
 from StationParameters import StationParameters
 from StationStatus import StationStatus
@@ -24,6 +25,9 @@ class StationController:
     parameters: StationParameters = None
     tick: int = 0
 
+    fan_speed: PWMLED = None
+    fan: LED = None
+
     def __init__(self, temp_gpio, heat_gpio, fan_gpio, fan_pwm_gpio, parameters: StationParameters):
         logging.debug('StationController init')
         self.TEMP_GPIO = temp_gpio
@@ -31,6 +35,8 @@ class StationController:
         self.FAN_GPIO = fan_gpio
         self.FAN_PWM_GPIO = fan_pwm_gpio
         self.parameters = parameters
+        self.fan_speed = PWMLED(self.FAN_PWM_GPIO)
+        self.fan = LED(self.FAN_GPIO)
 
     def doControlCycle(self):
         # Get current tick/cycle
@@ -48,6 +54,17 @@ class StationController:
     def getExecutionStatus(self):
         return self.status
 
+    def startFan(self, speed: float = 0.7):
+        logging.debug('Starting fans')
+        self.fan_speed=speed
+        self.fan.on()
+        self.status.isFanEnabled=True
+
+    def stopFan(self):
+        logging.debug('Stopping fans')
+        self.fan_speed=0
+        self.fan.on()
+        self.status.isFanEnabled=False
 
     def tearDown(self):
         # disableFan, Heat and humidifier
