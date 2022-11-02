@@ -107,14 +107,14 @@ class StationController:
             speed = self.DEFAULT_FAN_SPEED
 
         # self.fan_speed.ChangeDutyCycle(speed)
-        GPIO.output(self.FAN, GPIO.HIGH) # on
+        GPIO.output(self.FAN_GPIO, GPIO.HIGH) # on
         self.status.isFanEnabled=True
         logging.debug('Fans started')
 
     def stopFan(self):
         #if (self.status.isFanEnabled):
         logging.debug('Stopping fans')
-        GPIO.output(self.FAN, GPIO.LOW) # on
+        GPIO.output(self.FAN_GPIO, GPIO.LOW) # on
         self.status.isFanEnabled=False
         logging.debug('Fans stopped')
 
