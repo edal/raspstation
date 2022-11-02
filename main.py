@@ -53,5 +53,5 @@ try:
     while True:
         doCycle()
         time.sleep(1)
-except KeyboardInterrupt:
-    pass
+except:
+    handle_exit()
