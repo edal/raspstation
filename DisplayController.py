@@ -94,7 +94,7 @@ class DisplayController:
 
         if (status.fanScheduledTicks > 0):
             self.lcd.cursor_pos = (3, 8)
-            self.lcd.write_string('O2:%ss' % (status.fanScheduledTicks))
+            self.lcd.write_string('%s:%ss' % (FAN, status.fanScheduledTicks))
         else:
             self.lcd.cursor_pos = (3, 8)
             self.lcd.write_string('     ')
@@ -116,7 +116,7 @@ class DisplayController:
 
     # LCD allows to store 8 cutsom characters. Let's define there
     def __defineCustomCharacters(self):
-        global HAPPY,TEMP,DROP,UP, DOWN,CELSIUS,HEART,SAD
+        global HAPPY,TEMP,DROP,UP, DOWN,CELSIUS,HEART,SAD,FAN
 
         HAPPY_INDEX=0
         HAPPY=chr(HAPPY_INDEX)
@@ -132,6 +132,7 @@ class DisplayController:
         #CELSIUS_INDEX=5
         #CELSIUS=chr(CELSIUS_INDEX)
         CELSIUS='\xDF'
+        FAN='\x2A'
         HEART_INDEX=6
         HEART=chr(HEART_INDEX)
         SAD_INDEX=7
