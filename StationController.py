@@ -38,6 +38,7 @@ class StationController:
         self.FAN_GPIO = fan_gpio
         self.FAN_PWM_GPIO = fan_pwm_gpio
         self.parameters = parameters
+        GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.FAN_PWM_GPIO, GPIO.OUT)
         GPIO.setup(self.FAN_GPIO, GPIO.OUT)
         GPIO.setup(self.HEAT_GPIO, GPIO.OUT)
