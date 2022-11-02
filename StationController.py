@@ -59,7 +59,7 @@ class StationController:
                 self.startHeat()
                 self.stopFan()
             elif (t >= self.parameters.MIN_TEMPERATURE):
-                self.startHeat()
+                self.stopHeat()
                 self.stopFan()
 
             if (t > self.parameters.MAX_TEMPERATURE):
