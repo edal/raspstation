@@ -60,9 +60,11 @@ class StationController:
                 self.stopFan()
             elif (t >= self.parameters.MIN_TEMPERATURE):
                 self.stopHeat()
+
+            if (t >= self.parameters.MIN_TEMPERATURE and t < self.parameters.MAX_TEMPERATURE):
                 self.stopFan()
 
-            if (t > self.parameters.MAX_TEMPERATURE):
+            if (t >= self.parameters.MAX_TEMPERATURE):
                 self.__scheduleFans()
 
         self.__checkScheduling()
@@ -91,30 +93,34 @@ class StationController:
 
 
     def startFan(self, speed: float = -1):
-        logging.debug('Starting fans')
+        if (not self.status.isFanEnabled):
+            logging.debug('Starting fans')
 
-        if (speed <= 0):
-            speed = self.DEFAULT_FAN_SPEED
+            if (speed <= 0):
+                speed = self.DEFAULT_FAN_SPEED
 
-        self.fan_speed=speed
-        self.fan.on()
-        self.status.isFanEnabled=True
+            self.fan_speed=speed
+            self.fan.on()
+            self.status.isFanEnabled=True
 
     def stopFan(self):
-        logging.debug('Stopping fans')
-        self.fan_speed=0
-        self.fan.on()
-        self.status.isFanEnabled=False
+        if (self.status.isFanEnabled):
+            logging.debug('Stopping fans')
+            self.fan_speed=0
+            self.fan.off()
+            self.status.isFanEnabled=False
 
     def startHeat(self):
-        logging.debug('Starting heating')
-        self.heat.on()
-        self.status.isHeatEnabled=True
+        if (not self.status.isHeatEnabled):
+            logging.debug('Starting heating')
+            self.heat.on()
+            self.status.isHeatEnabled=True
 
     def stopHeat(self):
-        logging.debug('Stopping heating')
-        self.heat.off()
-        self.status.isHeatEnabled=False
+        if (self.status.isHeatEnabled):
+            logging.debug('Stopping heating')
+            self.heat.off()
+            self.status.isHeatEnabled=False
 
     def tearDown(self):
         # disableFan, Heat and humidifier
