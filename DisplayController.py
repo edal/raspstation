@@ -11,8 +11,6 @@ class DisplayController:
     # Internal state
     lcd: CharLCD
 
-    status: StationStatus = None
-    previousStatus: StationStatus = None
 
     clearedSplash=False
 
@@ -58,24 +56,23 @@ class DisplayController:
         t = '{:0.1f}'.format(status.temperature)
         h = '{:.0f}'.format(status.humidity)
 
-        if (self.previousStatus is None):
-            self.previousStatus = status
+        tempChar=' '
+        if (status.previousTemperature is not None):
+            if (status.temperature == status.previousTemperature):
+                tempChar='='
+            elif (status.temperature > status.previousTemperature):
+                tempChar=UP
+            else:
+                tempChar=DOWN
 
-        tempChar='='
-        if (status.temperature == self.previousStatus.temperature):
-            tempChar='='
-        elif (status.temperature > self.previousStatus.temperature):
-            tempChar=UP
-        else:
-            tempChar=DOWN
-
-        humiChar='='
-        if (status.humidity == self.previousStatus.humidity):
-            humiChar='='
-        elif (status.humidity > self.previousStatus.humidity):
-            humiChar=UP
-        else:
-            humiChar=DOWN
+        humiChar=' '
+        if (status.previousHumidity is not None):
+            if (status.humidity == status.previousHumidity):
+                humiChar='='
+            elif (status.humidity > status.previousHumidity):
+                humiChar=UP
+            else:
+                humiChar=DOWN
 
         if (not self.clearedSplash):
             self.lcd.clear()
@@ -95,8 +92,6 @@ class DisplayController:
         self.lcd.write_string(' ' + TEMP + ' ' + t + CELSIUS + tempChar)
         self.lcd.write_string('    ')
         self.lcd.write_string(DROP + ' ' + h + '%' + humiChar)
-
-        self.previousStatus = status
 
 
     # LCD allows to store 8 cutsom characters. Let's define there

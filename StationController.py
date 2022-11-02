@@ -38,6 +38,8 @@ class StationController:
 
         if (self.tick%self.DEFAUL_SENSOR_TICKS == 1):
             h, t = self.getSensorReading()
+            self.status.previousTemperature = self.status.temperature
+            self.status.previousHumidity = self.status.humidity
             self.status.temperature = t
             self.status.humidity = h
             logging.debug('New data read: Temp: %s Humidity: %s', '{:0.1f}'.format(t), '{:.0f}'.format(h))

@@ -6,6 +6,8 @@ class StationStatus:
     isHeatEnabled: bool
     isHumidifierEnabled: bool
     humidifierScheduledTicks: int
+    previousTemperature: float
+    previousHumidity: int
 
 
     # Default constructor
