@@ -83,12 +83,14 @@ class StationController:
                 logging.debug("Humidity is lower than MIN %s", self.parameters.MIN_HUMIDITY)
                 self.__scheduleHumidifier()
 
-            if (t >= self.parameters.MIN_HUMIDITY and t < self.parameters.MAX_HUMIDITY):
+            if (h >= self.parameters.MIN_HUMIDITY and h < self.parameters.MAX_HUMIDITY):
                 logging.debug("Humidity is in range MIN-MAX %s-%s", self.parameters.MIN_HUMIDITY, self.parameters.MAX_HUMIDITY)
 
-            if (t >= self.parameters.MIN_HUMIDITY):
+            if (h >= self.parameters.MAX_HUMIDITY):
                 logging.debug("Humidity is greater than MAX %s", self.parameters.MIN_HUMIDITY)
                 self.__scheduleFans()
+
+            self.status.inRange=(t >= self.parameters.MIN_TEMPERATURE and t < self.parameters.MAX_TEMPERATURE) and (h >= self.parameters.MIN_HUMIDITY and h < self.parameters.MAX_HUMIDITY)
 
 
     def getExecutionStatus(self):

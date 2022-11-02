@@ -77,7 +77,7 @@ class DisplayController:
             self.lcd.clear()
             self.clearedSplash=True
 
-        if (parameters.MIN_TEMPERATURE <= status.temperature and status.temperature <= parameters.MAX_TEMPERATURE ):
+        if (status.inRange):
             FACE=HAPPY
         else:
             FACE=SAD
