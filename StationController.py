@@ -41,11 +41,12 @@ class StationController:
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.FAN_PWM_GPIO, GPIO.OUT)
         self.fan_speed = GPIO.PWM(self.FAN_PWM_GPIO, self.DEFAULT_FAN_SPEED)
+        self.fan_speed.start(self.DEFAULT_FAN_SPEED)
 
         GPIO.setup(self.FAN_GPIO, GPIO.OUT)
         GPIO.output(self.FAN_GPIO, GPIO.LOW)
         GPIO.setup(self.HEAT_GPIO, GPIO.OUT)
-        GPIO.output(self.HEAT_GPIO, GPIO.LOW)
+        GPIO.output(self.HEAT_GPIO, True) # off
 
 
     def doControlCycle(self):
@@ -123,14 +124,14 @@ class StationController:
     def startHeat(self):
         #if (not self.status.isHeatEnabled):
         logging.debug('Starting heating')
-        GPIO.output(self.HEAT_GPIO, GPIO.HIGH) # Start
+        GPIO.output(self.HEAT_GPIO, False) # Start
         self.status.isHeatEnabled=True
         logging.debug('Heating started')
 
     def stopHeat(self):
         #if (self.status.isHeatEnabled):
         logging.debug('Stopping heating')
-        GPIO.output(self.HEAT_GPIO, GPIO.LOW) # Stop
+        GPIO.output(self.HEAT_GPIO, True) # Stop
         self.status.isHeatEnabled=False
         logging.debug('Heating stopped')
 
