@@ -127,6 +127,7 @@ class StationController:
         logging.debug("Tearing down station controller")
         self.stopFan()
         self.stopHeat()
+        GPIO.cleanup()
 
     def __getSensorReading(self):
         sensor=Adafruit_DHT.DHT11
