@@ -92,7 +92,7 @@ class DisplayController:
         self.lcd.write_string('    ')
         self.lcd.write_string(DROP + ' ' + h + '%' + humiChar)
 
-        '''
+
         if (status.fanScheduledTicks > 0):
             self.lcd.cursor_pos = (3, 0)
             self.lcd.write_string(' FAN: ' + status.fanScheduledTicks)
@@ -100,13 +100,13 @@ class DisplayController:
             self.lcd.cursor_pos = (3, 0)
             self.lcd.write_string('        ')
 
-        if (status.isHeatEnabled):
+        if (status.isHeatEnabled == True):
             self.lcd.cursor_pos = (3, 9)
-            self.lcd.write_string(' HEAT: ON')
+            self.lcd.write_string('  HEAT: ON')
         else:
             self.lcd.cursor_pos = (3, 9)
             self.lcd.write_string('         ')
-        '''
+
 
     # LCD allows to store 8 cutsom characters. Let's define there
     def __defineCustomCharacters(self):
