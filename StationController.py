@@ -91,49 +91,47 @@ class StationController:
             self.startFan()
 
     def __checkScheduling(self):
-        logging.debug('Fan remaining ticks %s', self.status.fanScheduledTicks)
-
         if (self.status.fanScheduledTicks == 1):
             # Last cycle for scheduled fans, stop them
             self.stopFan()
 
         # Decrease scheduled fan time one cycle
         if (self.status.fanScheduledTicks > 0):
+            logging.debug('Fan remaining ticks %s', self.status.fanScheduledTicks)
             self.status.fanScheduledTicks-=1
 
 
-    def startFan(self, speed: float = -1):
-        #if (not self.status.isFanEnabled):
-        logging.debug('Starting fans')
+    def startFan(self):
+        if (not self.status.isFanEnabled):
+            logging.debug('Starting fans')
 
-        if (speed <= 0.0):
-            speed = self.DEFAULT_FAN_SPEED
+            if (speed <= 0.0):
+                speed = self.DEFAULT_FAN_SPEED
 
-        # self.fan_speed.ChangeDutyCycle(speed)
-        GPIO.output(self.FAN_GPIO, GPIO.HIGH) # on
-        self.status.isFanEnabled=True
-        logging.debug('Fans started')
+            GPIO.output(self.FAN_GPIO, GPIO.HIGH) # on
+            self.status.isFanEnabled=True
+            logging.debug('Fans started')
 
     def stopFan(self):
-        #if (self.status.isFanEnabled):
-        logging.debug('Stopping fans')
-        GPIO.output(self.FAN_GPIO, GPIO.LOW) # on
-        self.status.isFanEnabled=False
-        logging.debug('Fans stopped')
+        if (self.status.isFanEnabled):
+            logging.debug('Stopping fans')
+            GPIO.output(self.FAN_GPIO, GPIO.LOW) # on
+            self.status.isFanEnabled=False
+            logging.debug('Fans stopped')
 
     def startHeat(self):
-        #if (not self.status.isHeatEnabled):
-        logging.debug('Starting heating')
-        GPIO.output(self.HEAT_GPIO, False) # Start
-        self.status.isHeatEnabled=True
-        logging.debug('Heating started')
+        if (not self.status.isHeatEnabled):
+            logging.debug('Starting heating')
+            GPIO.output(self.HEAT_GPIO, False) # Start
+            self.status.isHeatEnabled=True
+            logging.debug('Heating started')
 
     def stopHeat(self):
-        #if (self.status.isHeatEnabled):
-        logging.debug('Stopping heating')
-        GPIO.output(self.HEAT_GPIO, True) # Stop
-        self.status.isHeatEnabled=False
-        logging.debug('Heating stopped')
+        if (self.status.isHeatEnabled):
+            logging.debug('Stopping heating')
+            GPIO.output(self.HEAT_GPIO, True) # Stop
+            self.status.isHeatEnabled=False
+            logging.debug('Heating stopped')
 
     def tearDown(self):
         # disableFan, Heat and humidifier
