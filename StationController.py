@@ -15,11 +15,11 @@ class StationController:
     FAN_PWM_GPIO: int
 
     # Define default times in ticks/cycles (aprox 1 sec)
-    DEFAULT_FAN_TICKS: int = 3
+    DEFAULT_FAN_TICKS: int = 5
     DEFAUL_SENSOR_TICKS: int = 10
 
     # Default fan speed
-    DEFAULT_FAN_SPEED: float = 0.7
+    DEFAULT_FAN_SPEED: float = 1
 
     MAX_TICKS: int = max(DEFAULT_FAN_TICKS, DEFAUL_SENSOR_TICKS, DEFAULT_FAN_TICKS)
 
