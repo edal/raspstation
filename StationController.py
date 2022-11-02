@@ -42,7 +42,7 @@ class StationController:
         GPIO.setup(self.FAN_PWM_GPIO, GPIO.OUT)
         GPIO.setup(self.FAN_GPIO, GPIO.OUT)
         GPIO.setup(self.HEAT_GPIO, GPIO.OUT)
-        self.fan_speed = GPIO.PWM(self.FAN_PWM_GPIO, 0)
+        self.fan_speed = GPIO.PWM(self.FAN_PWM_GPIO, self.DEFAULT_FAN_SPEED)
 
     def doControlCycle(self):
         # Get current tick/cycle
@@ -102,27 +102,31 @@ class StationController:
             if (speed <= 0.0):
                 speed = self.DEFAULT_FAN_SPEED
 
-            self.fan_speed.ChangeDutyCycle(speed)
+            # self.fan_speed.ChangeDutyCycle(speed)
             GPIO.output(self.FAN, GPIO.HIGH) # on
             self.status.isFanEnabled=True
+            logging.debug('Fans started')
 
     def stopFan(self):
         if (self.status.isFanEnabled):
             logging.debug('Stopping fans')
             GPIO.output(self.FAN, GPIO.LOW) # on
             self.status.isFanEnabled=False
+            logging.debug('Fans stopped')
 
     def startHeat(self):
         if (not self.status.isHeatEnabled):
             logging.debug('Starting heating')
             GPIO.output(self.HEAT_GPIO, GPIO.LOW) # Start
             self.status.isHeatEnabled=True
+            logging.debug('Heating started')
 
     def stopHeat(self):
         if (self.status.isHeatEnabled):
             logging.debug('Stopping heating')
             GPIO.output(self.HEAT_GPIO, GPIO.HIGH) # Stop
             self.status.isHeatEnabled=False
+            logging.debug('Heating stopped')
 
     def tearDown(self):
         # disableFan, Heat and humidifier
