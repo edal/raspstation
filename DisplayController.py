@@ -92,10 +92,9 @@ class DisplayController:
         self.lcd.write_string('    ')
         self.lcd.write_string(DROP + ' ' + h + '%' + humiChar)
 
-        logging.debug('Fan scheduled ticks %s', status.fanScheduledTicks)
         if (status.fanScheduledTicks > 0):
             self.lcd.cursor_pos = (3, 0)
-            #self.lcd.write_string(' FAN: ' + status.fanScheduledTicks)
+            self.lcd.write_string(' FAN: {:.0f}s'.format(status.fanScheduledTicks))
         else:
             self.lcd.cursor_pos = (3, 0)
             self.lcd.write_string('        ')
@@ -140,8 +139,9 @@ class DisplayController:
         self.lcd.create_char(DROP_INDEX, drop)
         #up = (	0b00000,	0b00000,	0b00100,	0b01110,	0b11111,	0b00000,	0b00000,	0b00000)
         #self.lcd.create_char(UP_INDEX, up)
-        down = (	0b00000,	0b00000,	0b00000,	0b11111,	0b01110,	0b00100,	0b00000,	0b00000)
+        down = (0b00000,	0b00000,	0b00000,	0b00000,	0b10001,	0b01010,	0b00100,	0b00000)
         self.lcd.create_char(DOWN_INDEX, down)
+
         #celsius = (    0b00000,	0b00100,	0b01010,	0b00100,	0b00000,	0b00000,	0b00000,	0b00000)
         #self.lcd.create_char(CELSIUS_INDEX, celsius)
         heart = (    0b00000,	0b01010,	0b11111,	0b11111,	0b01110,	0b00100,	0b00000,	0b00000)

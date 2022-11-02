@@ -38,10 +38,14 @@ def doCycle():
     display.syncDisplay(status, parameters)
 
 # Nicely handle exit
+exiting=False
 def handle_exit(signum=0, frame=0):
-    display.tearDown()
-    controller.tearDown()
-    exit(0)
+    global exiting
+    if (exiting==False):
+        exiting=True
+        display.tearDown()
+        controller.tearDown()
+        exit(0)
 
 # Link handle_exit method with kill signals
 signal.signal(signal.SIGTERM, handle_exit)
