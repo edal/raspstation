@@ -88,7 +88,7 @@ class DisplayController:
         self.lcd.cursor_pos = (0, 0)
         self.lcd.write_string(heart_sprite + '   Fungistation ' + FACE + ' ' + heart_sprite)
         self.lcd.cursor_pos = (1, 4)
-        self.lcd.write_string('%s-%s%s %s-%s%' % (parameters.MIN_TEMPERATURE, parameters.MAX_TEMPERATURE, parameters.MIN_HUMIDITY, parameters.MAX_HUMIDITY))
+        self.lcd.write_string('%.0f-%.0f%.0f %.0f-%.0f%' % (parameters.MIN_TEMPERATURE, parameters.MAX_TEMPERATURE, parameters.MIN_HUMIDITY, parameters.MAX_HUMIDITY))
         self.lcd.cursor_pos = (2, 0)
         self.lcd.write_string(' ' + TEMP + ' ' + t + CELSIUS + tempChar)
         self.lcd.write_string('    ')
