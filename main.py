@@ -10,7 +10,7 @@ from StationParameters import StationParameters
 MIN_TEMP=23.0
 MAX_TEMP=25.0
 MIN_HUMIDITY=85.0
-MAX_HUMIDITY=98.0
+MAX_HUMIDITY=95.0
 
 # HARDWARE CONFIG
 TEMP_GPIO=23 # BOARD16
@@ -37,7 +37,7 @@ def doCycle():
     status = controller.getExecutionStatus()
     display.syncDisplay(status, parameters)
 
-# Nicely handle exit
+# Nicely handle exit (Ctrl+C, kill signal, exception, etc)
 exiting=False
 def handle_exit(signum=0, frame=0):
     global exiting

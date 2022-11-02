@@ -17,11 +17,12 @@ class StationController:
     # Define default times in ticks/cycles (aprox 1 sec)
     DEFAULT_FAN_TICKS: int = 9
     DEFAUL_SENSOR_TICKS: int = 10
+    DEFAULT_HUMIDITY_TICKS: int = 2
 
     # Default fan speed
     DEFAULT_FAN_SPEED: int = 100
 
-    MAX_TICKS: int = max(DEFAULT_FAN_TICKS, DEFAUL_SENSOR_TICKS, DEFAULT_FAN_TICKS)
+    MAX_TICKS: int = max(DEFAULT_FAN_TICKS, DEFAUL_SENSOR_TICKS, DEFAULT_FAN_TICKS, DEFAULT_HUMIDITY_TICKS)
 
     # internal state
     status: StationStatus = StationStatus(0.0, 0, False, 0, False)
@@ -78,6 +79,19 @@ class StationController:
                 logging.debug("Temperature is greater than MAX %s", self.parameters.MAX_TEMPERATURE)
                 self.__scheduleFans()
 
+            if (h < self.parameters.MIN_HUMIDITY):
+                logging.debug("Humidity is lower than MIN %s", self.parameters.MIN_HUMIDITY)
+                self.__scheduleHumidifier()
+                self.stopFan()
+
+            if (t >= self.parameters.MIN_HUMIDITY and t < self.parameters.MAX_HUMIDITY):
+                logging.debug("Humidity is in range MIN-MAX %s-%s", self.parameters.MIN_HUMIDITY, self.parameters.MAX_HUMIDITY)
+                self.stopFan()
+
+            if (t >= self.parameters.MIN_HUMIDITY):
+                logging.debug("Humidity is greater than MAX %s", self.parameters.MIN_HUMIDITY)
+                self.__scheduleFans()
+
 
     def getExecutionStatus(self):
         return self.status
@@ -91,15 +105,34 @@ class StationController:
             self.status.fanScheduledTicks = duration
             self.startFan()
 
+    def __scheduleHumidifier(self, duration: int = -1):
+        if (duration <= 0):
+            duration = self.DEFAULT_HUMIDITY_TICKS
+
+        # Only when there's no current schedule
+        if (self.status.humidifierScheduledTicks == 0):
+            self.status.humidifierScheduledTicks = duration
+            self.startHumidifier()
+
+
     def __checkScheduling(self):
-        # Decrease scheduled fan time one cycle
         if (self.status.fanScheduledTicks > 0):
+            # Decrease scheduled fan time one cycle
             self.status.fanScheduledTicks-=1
             logging.debug('Fan remaining ticks %s', self.status.fanScheduledTicks)
 
             if (self.status.fanScheduledTicks == 0):
                 # Last cycle for scheduled fans, stop them
                 self.stopFan()
+
+        if (self.status.humidifierScheduledTicks > 0):
+            # Decrease scheduled time one cycle
+            self.status.humidifierScheduledTicks-=1
+            logging.debug('Humidifier remaining ticks %s', self.status.humidifierScheduledTicks)
+
+            if (self.status.humidifierScheduledTicks == 0):
+                # Last cycle, stop it
+                self.stopHumidifier()
 
 
     def startFan(self):
@@ -129,6 +162,20 @@ class StationController:
             GPIO.output(self.HEAT_GPIO, True) # Stop
             self.status.isHeatEnabled=False
             logging.debug('Heating stopped')
+
+    def startHumidifier(self):
+        if (not self.status.ifHumidifierEnabled):
+            logging.debug('Starting humidifier')
+            #GPIO.output(self.HUMIDIFIER_GPIO, False) # Start
+            self.status.ifHumidifierEnabled=True
+            logging.debug('Humidifier started')
+
+    def stopHumidifier(self):
+        if (self.status.ifHumidifierEnabled):
+            logging.debug('Stopping humidifier')
+            #GPIO.output(self.HUMIDIFIER_GPIO, False) # Start
+            self.status.ifHumidifierEnabled=False
+            logging.debug('Humidifier stopped')
 
     def tearDown(self):
         # disableFan, Heat and humidifier
