@@ -52,7 +52,6 @@ class DisplayController:
         # Get current tick/cycle
         self.tick=(self.tick+1) % self.MAX_TICKS
 
-
         t = '{:0.1f}'.format(status.temperature)
         h = '{:.0f}'.format(status.humidity)
 
