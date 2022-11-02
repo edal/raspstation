@@ -101,7 +101,7 @@ class DisplayController:
 
         if (status.humidifierScheduledTicks > 0):
             self.lcd.cursor_pos = (3, 15)
-            self.lcd.write_string(DROP + ':%ss ' % (status.humidifierScheduledTicks))
+            self.lcd.write_string('%s:%ss ' % (DROP,status.humidifierScheduledTicks))
         else:
             self.lcd.cursor_pos = (3, 15)
             self.lcd.write_string('    ')
