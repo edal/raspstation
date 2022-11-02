@@ -101,7 +101,7 @@ class DisplayController:
 
         if (status.humidifierScheduledTicks > 0):
             self.lcd.cursor_pos = (3, 15)
-            self.lcd.write_string('%s:%ss ' % (DROP,status.humidifierScheduledTicks))
+            self.lcd.write_string('%s:%ss' % (DROP,status.humidifierScheduledTicks))
         else:
             self.lcd.cursor_pos = (3, 15)
             self.lcd.write_string('    ')
@@ -110,8 +110,8 @@ class DisplayController:
             self.lcd.cursor_pos = (3, 1)
             self.lcd.write_string(TEMP + ':ON')
         else:
-            self.lcd.cursor_pos = (3, 9)
-            self.lcd.write_string('         ')
+            self.lcd.cursor_pos = (3, 1)
+            self.lcd.write_string('    ')
 
 
     # LCD allows to store 8 cutsom characters. Let's define there
