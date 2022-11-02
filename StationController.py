@@ -53,6 +53,9 @@ class StationController:
         # Get current tick/cycle
         self.tick=(self.tick+1) % self.MAX_TICKS
 
+        # Check active schedulings before reads
+        self.__checkScheduling()
+
         # Only read from sensor when at least DEFAUL_SENSOR_TICKS have passed (min each 2 ticks)
         if (self.tick%self.DEFAUL_SENSOR_TICKS == 1):
             h, t = self.__getSensorReading()
@@ -75,8 +78,6 @@ class StationController:
                 logging.debug("Temperature is greater than MAX %s", self.parameters.MAX_TEMPERATURE)
                 self.__scheduleFans()
 
-        self.__checkScheduling()
-
 
     def getExecutionStatus(self):
         return self.status
@@ -91,14 +92,14 @@ class StationController:
             self.startFan()
 
     def __checkScheduling(self):
-        if (self.status.fanScheduledTicks == 1):
-            # Last cycle for scheduled fans, stop them
-            self.stopFan()
-
         # Decrease scheduled fan time one cycle
         if (self.status.fanScheduledTicks > 0):
             self.status.fanScheduledTicks-=1
             logging.debug('Fan remaining ticks %s', self.status.fanScheduledTicks)
+
+            if (self.status.fanScheduledTicks == 0):
+                # Last cycle for scheduled fans, stop them
+                self.stopFan()
 
 
     def startFan(self):
