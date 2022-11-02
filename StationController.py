@@ -83,6 +83,8 @@ class StationController:
             self.startFan()
 
     def __checkScheduling(self):
+        logging.debug('Fan remaining ticks %s', self.status.fanScheduledTicks)
+
         if (self.status.fanScheduledTicks == 1):
             # Last cycle for scheduled fans, stop them
             self.stopFan()
