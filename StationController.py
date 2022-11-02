@@ -1,7 +1,7 @@
 import logging
 
 import Adafruit_DHT
-from gpiozero import LED, PWMLED
+import RPi.GPIO as GPIO
 
 from StationParameters import StationParameters
 from StationStatus import StationStatus
@@ -19,7 +19,7 @@ class StationController:
     DEFAUL_SENSOR_TICKS: int = 10
 
     # Default fan speed
-    DEFAULT_FAN_SPEED: float = 1
+    DEFAULT_FAN_SPEED: int = 100
 
     MAX_TICKS: int = max(DEFAULT_FAN_TICKS, DEFAUL_SENSOR_TICKS, DEFAULT_FAN_TICKS)
 
@@ -28,9 +28,8 @@ class StationController:
     parameters: StationParameters = None
     tick: int = 0
 
-    fan_speed: PWMLED = None
-    fan: LED = None
-    heat: LED = None
+    fan_speed =  None
+
 
     def __init__(self, temp_gpio, heat_gpio, fan_gpio, fan_pwm_gpio, parameters: StationParameters):
         logging.debug('StationController init')
@@ -39,9 +38,9 @@ class StationController:
         self.FAN_GPIO = fan_gpio
         self.FAN_PWM_GPIO = fan_pwm_gpio
         self.parameters = parameters
-        self.fan_speed = PWMLED(self.FAN_PWM_GPIO)
-        self.fan = LED(self.FAN_GPIO)
-        self.heat = LED(self.HEAT_GPIO)
+        GPIO.setup(self.FAN_PWM_GPIO, GPIO.OUT)
+        GPIO.setup(self.FAN_GPIO, GPIO.OUT)
+        GPIO.setup(self.HEAT_GPIO, GPIO.OUT)
 
     def doControlCycle(self):
         # Get current tick/cycle
@@ -101,27 +100,26 @@ class StationController:
             if (speed <= 0):
                 speed = self.DEFAULT_FAN_SPEED
 
-            self.fan_speed=speed
-            self.fan.on()
+            self.fan_speed = GPIO.PWM(self.FAN_PWM_GPIO, speed)
+            GPIO.output(self.FAN, GPIO.HIGH) # on
             self.status.isFanEnabled=True
 
     def stopFan(self):
         if (self.status.isFanEnabled):
             logging.debug('Stopping fans')
-            self.fan_speed=0
-            self.fan.off()
+            GPIO.output(self.FAN, GPIO.LOW) # on
             self.status.isFanEnabled=False
 
     def startHeat(self):
         if (not self.status.isHeatEnabled):
             logging.debug('Starting heating')
-            self.heat.on()
+            GPIO.output(self.HEAT_GPIO, GPIO.LOW) # Start
             self.status.isHeatEnabled=True
 
     def stopHeat(self):
         if (self.status.isHeatEnabled):
             logging.debug('Stopping heating')
-            self.heat.off()
+            GPIO.output(self.HEAT_GPIO, GPIO.HIGH) # Stop
             self.status.isHeatEnabled=False
 
     def tearDown(self):
