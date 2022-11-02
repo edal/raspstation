@@ -94,14 +94,14 @@ class DisplayController:
 
         if (status.fanScheduledTicks > 0):
             self.lcd.cursor_pos = (3, 0)
-            self.lcd.write_string(' O2: {:.0f}s'.format(status.fanScheduledTicks))
+            self.lcd.write_string(' O2: %ss' % (status.fanScheduledTicks))
         else:
             self.lcd.cursor_pos = (3, 0)
             self.lcd.write_string('        ')
 
         if (status.humidifierScheduledTicks > 0):
             self.lcd.cursor_pos = (3, 0)
-            self.lcd.write_string(' ' + DROP + ': {:.0f}s '.format(status.fanScheduledTicks))
+            self.lcd.write_string(' ' + DROP + ': %ss ' % (status.humidifierScheduledTicks))
         else:
             self.lcd.cursor_pos = (3, 0)
             self.lcd.write_string('        ')
