@@ -54,4 +54,4 @@ try:
         doCycle()
         time.sleep(1)
 except:
-    handle_exit()
+    pass

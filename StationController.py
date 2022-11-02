@@ -97,8 +97,8 @@ class StationController:
 
         # Decrease scheduled fan time one cycle
         if (self.status.fanScheduledTicks > 0):
-            logging.debug('Fan remaining ticks %s', self.status.fanScheduledTicks)
             self.status.fanScheduledTicks-=1
+            logging.debug('Fan remaining ticks %s', self.status.fanScheduledTicks)
 
 
     def startFan(self):
