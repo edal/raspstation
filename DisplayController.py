@@ -87,12 +87,13 @@ class DisplayController:
 
         self.lcd.cursor_pos = (0, 0)
         self.lcd.write_string(heart_sprite + '   Fungistation ' + FACE + ' ' + heart_sprite)
-        self.lcd.cursor_pos = (1, 4)
-        self.lcd.write_string('%.0f-%.0f%s %.0f-%.0f%' % (parameters.MIN_TEMPERATURE, parameters.MAX_TEMPERATURE, CELSIUS, parameters.MIN_HUMIDITY, parameters.MAX_HUMIDITY))
-        self.lcd.cursor_pos = (2, 0)
+        self.lcd.cursor_pos = (1, 0)
         self.lcd.write_string(' ' + TEMP + ' ' + t + CELSIUS + tempChar)
         self.lcd.write_string('    ')
         self.lcd.write_string(DROP + ' ' + h + '%' + humiChar)
+
+        self.lcd.cursor_pos = (2, 4)
+        self.lcd.write_string('%d-%d%s %d-%d%%' % (parameters.MIN_TEMPERATURE, parameters.MAX_TEMPERATURE, CELSIUS, parameters.MIN_HUMIDITY, parameters.MAX_HUMIDITY))
 
         if (status.fanScheduledTicks > 0):
             self.lcd.cursor_pos = (3, 8)
