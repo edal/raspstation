@@ -15,7 +15,7 @@ class StationController:
     FAN_PWM_GPIO: int
 
     # Define default times in ticks/cycles (aprox 1 sec)
-    DEFAULT_FAN_TICKS: int = 5
+    DEFAULT_FAN_TICKS: int = 9
     DEFAUL_SENSOR_TICKS: int = 10
 
     # Default fan speed
@@ -43,7 +43,9 @@ class StationController:
         self.fan_speed = GPIO.PWM(self.FAN_PWM_GPIO, self.DEFAULT_FAN_SPEED)
 
         GPIO.setup(self.FAN_GPIO, GPIO.OUT)
+        GPIO.output(self.FAN_GPIO, GPIO.LOW)
         GPIO.setup(self.HEAT_GPIO, GPIO.OUT)
+        GPIO.output(self.HEAT_GPIO, GPIO.LOW)
 
 
     def doControlCycle(self):
