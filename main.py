@@ -55,7 +55,3 @@ try:
         time.sleep(1)
 except KeyboardInterrupt:
     pass
-finally:
-    handle_exit()
-
-
