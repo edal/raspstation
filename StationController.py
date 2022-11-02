@@ -57,15 +57,19 @@ class StationController:
             self.status.humidity = h
             logging.debug('New data read: Temp: %s Humidity: %s', '{:0.1f}'.format(t), '{:.0f}'.format(h))
             if (t < self.parameters.MIN_TEMPERATURE):
+                logging.debug("Temperature is lower than MIN %s", self.parameters.MIN_TEMPERATURE)
                 self.startHeat()
                 self.stopFan()
             elif (t >= self.parameters.MIN_TEMPERATURE):
+                logging.debug("Temperature is greater than MIN %s", self.parameters.MIN_TEMPERATURE)
                 self.stopHeat()
 
             if (t >= self.parameters.MIN_TEMPERATURE and t < self.parameters.MAX_TEMPERATURE):
+                logging.debug("Temperature is in range MIN-MAX %s-%s", self.parameters.MIN_TEMPERATURE, self.parameters.MAX_TEMPERATURE)
                 self.stopFan()
 
             if (t >= self.parameters.MAX_TEMPERATURE):
+                logging.debug("Temperature is greater than MAX %s", self.parameters.MAX_TEMPERATURE)
                 self.__scheduleFans()
 
         self.__checkScheduling()
