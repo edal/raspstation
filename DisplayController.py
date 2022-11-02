@@ -93,22 +93,22 @@ class DisplayController:
         self.lcd.write_string(DROP + ' ' + h + '%' + humiChar)
 
         if (status.fanScheduledTicks > 0):
-            self.lcd.cursor_pos = (3, 0)
-            self.lcd.write_string(' O2: %ss' % (status.fanScheduledTicks))
+            self.lcd.cursor_pos = (3, 8)
+            self.lcd.write_string('O2:%ss' % (status.fanScheduledTicks))
         else:
-            self.lcd.cursor_pos = (3, 0)
-            self.lcd.write_string('        ')
+            self.lcd.cursor_pos = (3, 8)
+            self.lcd.write_string('     ')
 
         if (status.humidifierScheduledTicks > 0):
-            self.lcd.cursor_pos = (3, 0)
-            self.lcd.write_string(' ' + DROP + ': %ss ' % (status.humidifierScheduledTicks))
+            self.lcd.cursor_pos = (3, 15)
+            self.lcd.write_string(DROP + ':%ss ' % (status.humidifierScheduledTicks))
         else:
-            self.lcd.cursor_pos = (3, 0)
-            self.lcd.write_string('        ')
+            self.lcd.cursor_pos = (3, 15)
+            self.lcd.write_string('    ')
 
         if (status.isHeatEnabled == True):
-            self.lcd.cursor_pos = (3, 9)
-            self.lcd.write_string('  HEAT: ON')
+            self.lcd.cursor_pos = (3, 1)
+            self.lcd.write_string(TEMP + ':ON')
         else:
             self.lcd.cursor_pos = (3, 9)
             self.lcd.write_string('         ')
