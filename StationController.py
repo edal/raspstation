@@ -121,14 +121,14 @@ class StationController:
     def startHeat(self):
         #if (not self.status.isHeatEnabled):
         logging.debug('Starting heating')
-        GPIO.output(self.HEAT_GPIO, GPIO.LOW) # Start
+        GPIO.output(self.HEAT_GPIO, GPIO.HIGH) # Start
         self.status.isHeatEnabled=True
         logging.debug('Heating started')
 
     def stopHeat(self):
         #if (self.status.isHeatEnabled):
         logging.debug('Stopping heating')
-        GPIO.output(self.HEAT_GPIO, GPIO.HIGH) # Stop
+        GPIO.output(self.HEAT_GPIO, GPIO.LOW) # Stop
         self.status.isHeatEnabled=False
         logging.debug('Heating stopped')
 
