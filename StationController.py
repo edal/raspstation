@@ -40,9 +40,11 @@ class StationController:
         self.parameters = parameters
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.FAN_PWM_GPIO, GPIO.OUT)
+        self.fan_speed = GPIO.PWM(self.FAN_PWM_GPIO, self.DEFAULT_FAN_SPEED)
+
         GPIO.setup(self.FAN_GPIO, GPIO.OUT)
         GPIO.setup(self.HEAT_GPIO, GPIO.OUT)
-        self.fan_speed = GPIO.PWM(self.FAN_PWM_GPIO, self.DEFAULT_FAN_SPEED)
+
 
     def doControlCycle(self):
         # Get current tick/cycle
@@ -60,13 +62,11 @@ class StationController:
                 logging.debug("Temperature is lower than MIN %s", self.parameters.MIN_TEMPERATURE)
                 self.startHeat()
                 self.stopFan()
-            elif (t >= self.parameters.MIN_TEMPERATURE):
-                logging.debug("Temperature is greater than MIN %s", self.parameters.MIN_TEMPERATURE)
-                self.stopHeat()
 
             if (t >= self.parameters.MIN_TEMPERATURE and t < self.parameters.MAX_TEMPERATURE):
                 logging.debug("Temperature is in range MIN-MAX %s-%s", self.parameters.MIN_TEMPERATURE, self.parameters.MAX_TEMPERATURE)
                 self.stopFan()
+                self.stopHeat()
 
             if (t >= self.parameters.MAX_TEMPERATURE):
                 logging.debug("Temperature is greater than MAX %s", self.parameters.MAX_TEMPERATURE)
@@ -100,37 +100,37 @@ class StationController:
 
 
     def startFan(self, speed: float = -1):
-        if (not self.status.isFanEnabled):
-            logging.debug('Starting fans')
+        #if (not self.status.isFanEnabled):
+        logging.debug('Starting fans')
 
-            if (speed <= 0.0):
-                speed = self.DEFAULT_FAN_SPEED
+        if (speed <= 0.0):
+            speed = self.DEFAULT_FAN_SPEED
 
-            # self.fan_speed.ChangeDutyCycle(speed)
-            GPIO.output(self.FAN, GPIO.HIGH) # on
-            self.status.isFanEnabled=True
-            logging.debug('Fans started')
+        # self.fan_speed.ChangeDutyCycle(speed)
+        GPIO.output(self.FAN, GPIO.HIGH) # on
+        self.status.isFanEnabled=True
+        logging.debug('Fans started')
 
     def stopFan(self):
-        if (self.status.isFanEnabled):
-            logging.debug('Stopping fans')
-            GPIO.output(self.FAN, GPIO.LOW) # on
-            self.status.isFanEnabled=False
-            logging.debug('Fans stopped')
+        #if (self.status.isFanEnabled):
+        logging.debug('Stopping fans')
+        GPIO.output(self.FAN, GPIO.LOW) # on
+        self.status.isFanEnabled=False
+        logging.debug('Fans stopped')
 
     def startHeat(self):
-        if (not self.status.isHeatEnabled):
-            logging.debug('Starting heating')
-            GPIO.output(self.HEAT_GPIO, GPIO.LOW) # Start
-            self.status.isHeatEnabled=True
-            logging.debug('Heating started')
+        #if (not self.status.isHeatEnabled):
+        logging.debug('Starting heating')
+        GPIO.output(self.HEAT_GPIO, GPIO.LOW) # Start
+        self.status.isHeatEnabled=True
+        logging.debug('Heating started')
 
     def stopHeat(self):
-        if (self.status.isHeatEnabled):
-            logging.debug('Stopping heating')
-            GPIO.output(self.HEAT_GPIO, GPIO.HIGH) # Stop
-            self.status.isHeatEnabled=False
-            logging.debug('Heating stopped')
+        #if (self.status.isHeatEnabled):
+        logging.debug('Stopping heating')
+        GPIO.output(self.HEAT_GPIO, GPIO.HIGH) # Stop
+        self.status.isHeatEnabled=False
+        logging.debug('Heating stopped')
 
     def tearDown(self):
         # disableFan, Heat and humidifier
