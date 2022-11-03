@@ -85,9 +85,9 @@ class DisplayController:
         heart_array = [HEART, ' ']
         heart_sprite = heart_array[self.tick%(len(heart_array))]
         title_fungi = heart_sprite + '   Fungistation ' + FACE + ' ' + heart_sprite
-        title_program = heart_sprite + '  %d-%d%s %d-%d%%' % (parameters.MIN_TEMPERATURE, parameters.MAX_TEMPERATURE, CELSIUS, parameters.MIN_HUMIDITY, parameters.MAX_HUMIDITY) + FACE + ' ' + heart_sprite
+        title_program = heart_sprite + '  %d-%d%s %d-%d%% ' % (parameters.MIN_TEMPERATURE, parameters.MAX_TEMPERATURE, CELSIUS, parameters.MIN_HUMIDITY, parameters.MAX_HUMIDITY) + FACE + ' ' + heart_sprite
 
-        if (self.ticks < 5):
+        if (self.tick%6 < 3):
             title_sprite = title_fungi
         else:
             title_sprite = title_program
