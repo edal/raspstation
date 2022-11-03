@@ -77,6 +77,7 @@ class StationController:
 
             if (t >= self.parameters.MAX_TEMPERATURE):
                 logging.debug("Temperature is greater than MAX %s", self.parameters.MAX_TEMPERATURE)
+                self.stopHeat()
                 self.__scheduleFans()
 
             if (h < self.parameters.MIN_HUMIDITY):

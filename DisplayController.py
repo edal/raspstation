@@ -84,16 +84,20 @@ class DisplayController:
 
         heart_array = [HEART, ' ']
         heart_sprite = heart_array[self.tick%(len(heart_array))]
+        title_fungi = heart_sprite + '   Fungistation ' + FACE + ' ' + heart_sprite
+        title_program = '%d-%d%s %d-%d%%' % (parameters.MIN_TEMPERATURE, parameters.MAX_TEMPERATURE, CELSIUS, parameters.MIN_HUMIDITY, parameters.MAX_HUMIDITY)
+        tittle_array = [title_fungi, title_program]
+        title_sprite = tittle_array[self.tick%(len(tittle_array))]
 
         self.lcd.cursor_pos = (0, 0)
-        self.lcd.write_string(heart_sprite + '   Fungistation ' + FACE + ' ' + heart_sprite)
+        self.lcd.write_string(title_sprite)
         self.lcd.cursor_pos = (1, 0)
         self.lcd.write_string(' ' + TEMP + ' ' + t + CELSIUS + tempChar)
         self.lcd.write_string('    ')
         self.lcd.write_string(DROP + ' ' + h + '%' + humiChar)
 
-        self.lcd.cursor_pos = (2, 4)
-        self.lcd.write_string('%d-%d%s %d-%d%%' % (parameters.MIN_TEMPERATURE, parameters.MAX_TEMPERATURE, CELSIUS, parameters.MIN_HUMIDITY, parameters.MAX_HUMIDITY))
+        #self.lcd.cursor_pos = (2, 4)
+        #self.lcd.write_string('%d-%d%s %d-%d%%' % (parameters.MIN_TEMPERATURE, parameters.MAX_TEMPERATURE, CELSIUS, parameters.MIN_HUMIDITY, parameters.MAX_HUMIDITY))
 
         if (status.fanScheduledTicks > 0):
             self.lcd.cursor_pos = (3, 8)
