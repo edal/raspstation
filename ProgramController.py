@@ -17,7 +17,7 @@ class ProgramController:
     remainingTimeout: int
     isDisplayingProgram: bool = False
 
-    def ProgramController(self, programs, display: DisplayController, station: StationController):
+    def __init__(self, programs, display: DisplayController, station: StationController):
         self.programs = programs
         self.display = display
         self.station = station
