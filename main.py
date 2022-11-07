@@ -30,12 +30,14 @@ def init():
 
     # Initialize main vars
     display = DisplayController()
-    controller = StationController(TEMP_GPIO, HEAT_GPIO, FAN_GPIO, FAN_PWM_GPIO, programs[0])
+    controller = StationController(TEMP_GPIO, HEAT_GPIO, FAN_GPIO, FAN_PWM_GPIO, programs[0].parameters)
+
     programmer = ProgramController(programs, display, controller)
 
 # Script setup
 def setup():
     # Check for saved program, display and await timeout or change
+    logging.debug('Setting up programs...')
     programmer.setup()
 
 

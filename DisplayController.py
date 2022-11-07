@@ -125,6 +125,7 @@ class DisplayController:
             self.lcd.write_string('    ')
 
     def displayProgramSelection(self, programs, programIndex, remainingTimeout: int):
+        logging.debug('DisplayController program selection')
         self.lcd.cursor_pos = (0,0)
         self.lcd.write_string(' Program selection:')
         self.lcd.cursor_pos = (1,0)
