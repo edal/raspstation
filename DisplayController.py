@@ -15,7 +15,7 @@ class DisplayController:
     clearedSplash=False
 
 
-    MAX_TICKS: int = 10
+    MAX_TICKS: int = 30
     tick: int = 0
 
 
@@ -87,7 +87,7 @@ class DisplayController:
         title_fungi = heart_sprite + '   Fungistation ' + FACE + ' ' + heart_sprite
         title_program = heart_sprite + '  %d-%d%s %d-%d%% ' % (parameters.MIN_TEMPERATURE, parameters.MAX_TEMPERATURE, CELSIUS, parameters.MIN_HUMIDITY, parameters.MAX_HUMIDITY) + FACE + ' ' + heart_sprite
 
-        if (self.tick%7 < 3):
+        if (self.tick%6 < 3):
             title_sprite = title_fungi
         else:
             title_sprite = title_program
