@@ -48,9 +48,9 @@ class StationController:
         GPIO.setup(self.FAN_GPIO, GPIO.OUT)
         GPIO.output(self.FAN_GPIO, GPIO.LOW)
         GPIO.setup(self.HEAT_GPIO, GPIO.OUT)
-        time.sleep(0.5)
-        GPIO.output(self.HEAT_GPIO, True) # off
 
+    def setParameters(self, parameters: StationParameters):
+        self.parameters = parameters
 
     def doControlCycle(self):
         # Get current tick/cycle

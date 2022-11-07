@@ -3,14 +3,17 @@ import signal
 import time
 
 from DisplayController import DisplayController
+from Program import Program
+from ProgramController import ProgramController
 from StationController import StationController
 from StationParameters import StationParameters
 
 # PARAMETERS
-MIN_TEMP=23.0
-MAX_TEMP=25.0
-MIN_HUMIDITY=85.0
-MAX_HUMIDITY=95.0
+p1: Program('P1','Initial', StationParameters(23.0, 25.0, 90, 100, 1))
+p2: Program('P2','Primordium', StationParameters(23.0, 25.0, 80, 90, 2))
+p3: Program('P3','Grow', StationParameters(23.0, 25.0, 80, 90, 4))
+
+programs = [p1, p2, p3]
 
 # HARDWARE CONFIG
 TEMP_GPIO=23 # BOARD16
@@ -23,19 +26,24 @@ logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=lo
 
 # Script init
 def init():
-    global display,controller,parameters
+    global display,controller,programmer
 
     # Initialize main vars
-    parameters = StationParameters(MIN_TEMP, MAX_TEMP, MIN_HUMIDITY, MAX_HUMIDITY)
     display = DisplayController()
-    controller = StationController(TEMP_GPIO, HEAT_GPIO, FAN_GPIO, FAN_PWM_GPIO, parameters)
+    controller = StationController(TEMP_GPIO, HEAT_GPIO, FAN_GPIO, FAN_PWM_GPIO, programs[0])
+    programmer = ProgramController(programs, display, controller)
+
+# Script setup
+def setup():
+    # Check for saved program, display and await timeout or change
+    programmer.setup()
 
 
 # Each loop executes this method
 def doCycle():
     controller.doControlCycle()
     status = controller.getExecutionStatus()
-    display.syncDisplay(status, parameters)
+    display.syncDisplay(status, programmer.getCurrentParameters())
 
 # Nicely handle exit (Ctrl+C, kill signal, exception, etc)
 exiting=False
@@ -54,6 +62,7 @@ signal.signal(signal.SIGINT, handle_exit)
 # The main loop
 try:
     init()
+    setup()
     while True:
         doCycle()
         time.sleep(1)
