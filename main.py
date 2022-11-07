@@ -28,7 +28,7 @@ def init():
     # Initialize main vars
     parameters = StationParameters(MIN_TEMP, MAX_TEMP, MIN_HUMIDITY, MAX_HUMIDITY)
     display = DisplayController()
-    controller = StationController(TEMP_GPIO, FAN_GPIO, FAN_PWM_GPIO, HEAT_GPIO, parameters)
+    controller = StationController(TEMP_GPIO, HEAT_GPIO, FAN_GPIO, FAN_PWM_GPIO, parameters)
 
 
 # Each loop executes this method
