@@ -27,8 +27,8 @@ class StationStatus:
 
     def equals(self, other):
         try:
-            self.print()
-            other.print()
+            self.print('new')
+            other.print('pre')
             return (other is not None) and (self.temperature==other.temperature and
                     self.humidity==other.humidity and
                     self.isFanEnabled==other.isFanEnabled and
@@ -38,8 +38,8 @@ class StationStatus:
                     #self.humidifierScheduledTicks==other.humidifierScheduledTicks and
                     self.inRange==other.inRange)
         except Exception as e:
-            print("An error ocurred storing csv register: ", e)
+            print("An error ocurred comparing StationStatus objects: ", e)
             return False
 
-    def print(self):
-        logging.debug("temp:%s hum:%s isFan:%s isHeat:%s isHum:%s inRange:%s" % (self.temperature,self.humidity,self.isFanEnabled,self.isHeatEnabled,self.isHumidifierEnabled,self.inRange))
+    def print(self, name):
+        logging.debug("%s: temp:%s hum:%s isFan:%s isHeat:%s isHum:%s inRange:%s" % (name, self.temperature,self.humidity,self.isFanEnabled,self.isHeatEnabled,self.isHumidifierEnabled,self.inRange))
