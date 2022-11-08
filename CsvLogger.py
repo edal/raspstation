@@ -8,7 +8,7 @@ from StationStatus import StationStatus
 class CsvLogger:
     file = ''
 
-    def __init__(self, fileName='stats.csv'):
+    def __init__(self, fileName='/home/funghi/raspstation/stats.csv'):
         self.file=fileName
 
     def logStatus(self, s: StationStatus):
