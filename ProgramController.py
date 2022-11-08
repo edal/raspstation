@@ -8,7 +8,7 @@ from StationController import StationController
 
 
 class ProgramController:
-    PROGRAM_FILE=".storedProgram"
+    PROGRAM_FILE="storedProgram"
     DEFAULT_TIMEOUT=5
 
     currentProgram: int
@@ -68,13 +68,14 @@ class ProgramController:
                 file.close()
                 return int(p)
             except:
+                logging.warn('There was an error loading last program from file. Defaulting to x')
                 return default
         else:
             return default
 
     def storeLastUsedProgram(self, program):
         file = open(self.PROGRAM_FILE, "w")
-        file.writelines(program)
+        file.write(str(program))
         file.close()
 
 

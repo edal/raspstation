@@ -129,12 +129,13 @@ class DisplayController:
         self.lcd.cursor_pos = (0,0)
         self.lcd.write_string(' Program selection:')
         self.lcd.cursor_pos = (1,0)
-        p: Program = programs[programIndex]
-        self.lcd.write_string(' %s: %s', p.name, p.description)
+        p = programs[programIndex]
+        self.lcd.write_string(' %s: %s' % (p.name, p.description))
         self.lcd.cursor_pos = (2,0)
+
         self.lcd.write_string(' %d-%d%s %d-%d%% ' % (p.parameters.MIN_TEMPERATURE, p.parameters.MAX_TEMPERATURE, CELSIUS, p.parameters.MIN_HUMIDITY, p.parameters.MAX_HUMIDITY))
         self.lcd.cursor_pos = (3,0)
-        self.lcd.write_string('         %ss', remainingTimeout)
+        self.lcd.write_string('         %ss' % remainingTimeout)
 
     # LCD allows to store 8 cutsom characters. Let's define there
     def __defineCustomCharacters(self):
