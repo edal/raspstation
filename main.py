@@ -1,4 +1,7 @@
 import logging
+
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG, datefmt='%d-%m-%y %H:%M:%S')
+
 import signal
 import sys
 import time
@@ -23,8 +26,8 @@ FAN_PWM_GPIO = 18 # BOARD12
 FAN_GPIO = 17 # BOARD11
 
 
-logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.DEBUG, datefmt='%d-%m-%y %H:%M:%S')
 log = logging.getLogger()
+
 
 # Script init
 def init():
