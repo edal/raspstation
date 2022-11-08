@@ -42,4 +42,4 @@ class StationStatus:
             return False
 
     def print(self):
-        logging.debug("temp:%s hum:%s isFan:%s isHeat:%s isHum:%s inRange:%s" % (self.temperature,self.humidity,self.isFanEnabled,self.isHeatEnabled,self.isHumidifierEnabled,self.inRangee))
+        logging.debug("temp:%s hum:%s isFan:%s isHeat:%s isHum:%s inRange:%s" % (self.temperature,self.humidity,self.isFanEnabled,self.isHeatEnabled,self.isHumidifierEnabled,self.inRange))
