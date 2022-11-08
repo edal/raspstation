@@ -27,8 +27,8 @@ class StationStatus:
 
     def equals(self, other):
         try:
-            print(self)
-            print(other)
+            self.print()
+            other.print()
             return (other is not None) and (self.temperature==other.temperature and
                     self.humidity==other.humidity and
                     self.isFanEnabled==other.isFanEnabled and
