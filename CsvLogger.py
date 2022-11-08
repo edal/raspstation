@@ -1,4 +1,5 @@
 
+import logging
 import time
 from csv import writer
 
@@ -13,11 +14,12 @@ class CsvLogger:
         self.file=fileName
 
     def logStatus(self, s: StationStatus):
+        logging.debug('Status changed? %s' % (not s.equals(self.previousStatus)))
         try:
             if (not s.equals(self.previousStatus)):
+                self.previousStatus=s
                 row_contents = [time.strftime('%d/%m/%y %H:%M:%S'),'{:0.1f}'.format(s.temperature),'{:0.1f}'.format(s.humidity),s.isFanEnabled,s.isHeatEnabled, s.isHumidifierEnabled]
                 self.__appendListAsRow(row_contents)
-                self.previousStatus=s
         except Exception as e:
             print("An error ocurred storing csv register: ", e)
 
