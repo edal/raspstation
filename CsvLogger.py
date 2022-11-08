@@ -14,7 +14,6 @@ class CsvLogger:
         self.file=fileName
 
     def logStatus(self, s: StationStatus):
-        logging.debug('Status changed? %s' % (not s.equals(self.previousStatus)))
         try:
             if (not s.equals(self.previousStatus)):
                 self.previousStatus=s.clone()
