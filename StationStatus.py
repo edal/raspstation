@@ -1,3 +1,6 @@
+import logging
+
+
 class StationStatus:
     temperature: float
     humidity: int
@@ -24,7 +27,9 @@ class StationStatus:
 
     def equals(self, other):
         try:
-            return (self.temperature==other.temperature and
+            print(self)
+            print(other)
+            return (other is not None) and (self.temperature==other.temperature and
                     self.humidity==other.humidity and
                     self.isFanEnabled==other.isFanEnabled and
                     #self.fanScheduledTicks==other.fanScheduledTicks and
@@ -35,3 +40,6 @@ class StationStatus:
         except Exception as e:
             print("An error ocurred storing csv register: ", e)
             return False
+
+    def print(self):
+        logging.debug("temp:%s hum:%s isFan:%s isHeat:%s isHum:%s inRange:%s" % (self.temperature,self.humidity,self.isFanEnabled,self.isHeatEnabled,self.isHumidifierEnabled,self.inRangee))
