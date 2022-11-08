@@ -18,7 +18,7 @@ class StationStatus:
         self.isFanEnabled=isFanEnabled
         self.fanScheduledTicks=fanScheduledTicks
         self.isHeatEnabled=isHeatEnabled
-        self.ifHumidifierEnabled=isHumidifierEnabled
+        self.isHumidifierEnabled=isHumidifierEnabled
         self.humidifierScheduledTicks=humidifierScheduledTicks
         self.inRange = inRange
 
