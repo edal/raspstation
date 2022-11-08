@@ -1,5 +1,7 @@
 import logging
 
+from CsvLogger import CsvLogger
+
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG, datefmt='%d-%m-%y %H:%M:%S')
 
 import signal
@@ -31,13 +33,14 @@ log = logging.getLogger()
 
 # Script init
 def init():
-    global display,controller,programmer
+    global display,controller,programmer,csvLog
 
     # Initialize main vars
     display = DisplayController()
     controller = StationController(TEMP_GPIO, HEAT_GPIO, FAN_GPIO, FAN_PWM_GPIO, programs[0].parameters)
 
     programmer = ProgramController(programs, display, controller)
+    csvLog = CsvLogger()
 
 # Script setup
 def setup():
@@ -51,6 +54,7 @@ def doCycle():
     controller.doControlCycle()
     status = controller.getExecutionStatus()
     display.syncDisplay(status, programmer.getCurrentParameters())
+    csvLog.logStatus(status)
 
 # Nicely handle exit (Ctrl+C, kill signal, exception, etc)
 exiting=False
