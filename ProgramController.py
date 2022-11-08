@@ -8,6 +8,7 @@ from StationController import StationController
 
 
 class ProgramController:
+    log = logging.getLogger('ProgramController')
     PROGRAM_FILE="storedProgram"
     DEFAULT_TIMEOUT=5
 
@@ -19,23 +20,23 @@ class ProgramController:
     isDisplayingProgram: bool = False
 
     def __init__(self, programs, display: DisplayController, station: StationController):
-        logging.debug('Initializing program controller')
+        self.log.debug('Initializing program controller')
         self.programs = programs
         self.display = display
         self.station = station
         self.currentProgram = 0
-        logging.debug('Program controller initialized')
+        self.log.debug('Program controller initialized')
 
     def getCurrentParameters(self):
-        logging.debug('Getting current program parameters...')
+        self.log.debug('Getting current program parameters...')
         return self.programs[self.currentProgram].parameters
 
     def setup(self):
-        logging.debug('Entering program setup...')
+        self.log.debug('Entering program setup...')
         self.currentProgram=self.loadLastUsedProgramOrDefault()
         self.remainingTimeout=self.DEFAULT_TIMEOUT
         self.displayCurrentProgram()
-        logging.debug('Program setup done')
+        self.log.debug('Program setup done')
 
     def onProgramButtonPress(self):
         self.currentProgram=(self.currentProgram+1)%len(self.programs)
@@ -46,7 +47,7 @@ class ProgramController:
 
 
     def displayCurrentProgram(self):
-        logging.debug('Displaying current program...')
+        self.log.debug('Displaying current program...')
         self.isDisplayingProgram=True
         while self.remainingTimeout > 0:
             self.display.displayProgramSelection(self.programs, self.currentProgram, self.remainingTimeout)
@@ -55,7 +56,7 @@ class ProgramController:
         self.isDisplayingProgram=False
         self.storeLastUsedProgram(self.currentProgram)
         self.station.setParameters(self.programs[self.currentProgram].parameters)
-        logging.debug('Displaying current program done')
+        self.log.debug('Displaying current program done')
 
 
     def loadLastUsedProgramOrDefault(self):
@@ -68,7 +69,7 @@ class ProgramController:
                 file.close()
                 return int(p)
             except:
-                logging.warn('There was an error loading last program from file. Defaulting to x')
+                self.log.warn('There was an error loading last program from file. Defaulting to x')
                 return default
         else:
             return default

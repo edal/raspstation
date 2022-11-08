@@ -9,6 +9,7 @@ from StationStatus import StationStatus
 
 
 class DisplayController:
+    log = logging.getLogger('DisplayController')
     # Internal state
     lcd: CharLCD
 
@@ -21,7 +22,7 @@ class DisplayController:
 
 
     def __init__(self):
-        logging.debug('DisplayController init')
+        self.log.debug('DisplayController init')
         # Initialise the LCD
         lcdmode = 'i2c'
         cols = 20
@@ -125,7 +126,7 @@ class DisplayController:
             self.lcd.write_string('    ')
 
     def displayProgramSelection(self, programs, programIndex, remainingTimeout: int):
-        logging.debug('DisplayController program selection')
+        self.log.debug('DisplayController program selection')
         self.lcd.cursor_pos = (0,0)
         self.lcd.write_string(' Program selection:')
         self.lcd.cursor_pos = (1,0)
@@ -181,7 +182,7 @@ class DisplayController:
         self.lcd.create_char(SAD_INDEX, sad)
 
     def tearDown(self):
-        logging.debug("Tearing down display controller")
+        self.log.debug("Tearing down display controller")
         # Switch off backlight
         self.lcd.backlight_enabled = False
         # Clear the LCD screen

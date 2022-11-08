@@ -9,6 +9,7 @@ from StationStatus import StationStatus
 
 
 class StationController:
+    log = logging.getLogger('StationController')
     # Configurable vars
     TEMP_GPIO: int
     HEAT_GPIO: int
@@ -34,7 +35,7 @@ class StationController:
 
 
     def __init__(self, temp_gpio, heat_gpio, fan_gpio, fan_pwm_gpio, parameters: StationParameters):
-        logging.debug('StationController init')
+        self.log.debug('StationController init')
         self.TEMP_GPIO = temp_gpio
         self.HEAT_GPIO = heat_gpio
         self.FAN_GPIO = fan_gpio
@@ -66,31 +67,31 @@ class StationController:
             self.status.previousHumidity = self.status.humidity
             self.status.temperature = t
             self.status.humidity = h
-            logging.debug('New data read: Temp: %s Humidity: %s', '{:0.1f}'.format(t), '{:.0f}'.format(h))
+            self.log.debug('New data read: Temp: %s Humidity: %s', '{:0.1f}'.format(t), '{:.0f}'.format(h))
             if (t < self.parameters.MIN_TEMPERATURE):
-                logging.debug("Temperature is lower than MIN %s", self.parameters.MIN_TEMPERATURE)
+                self.log.debug("Temperature is lower than MIN %s", self.parameters.MIN_TEMPERATURE)
                 self.startHeat()
                 self.stopFan()
 
             if (t >= self.parameters.MIN_TEMPERATURE and t < self.parameters.MAX_TEMPERATURE):
-                logging.debug("Temperature is in range MIN-MAX %s-%s", self.parameters.MIN_TEMPERATURE, self.parameters.MAX_TEMPERATURE)
+                self.log.debug("Temperature is in range MIN-MAX %s-%s", self.parameters.MIN_TEMPERATURE, self.parameters.MAX_TEMPERATURE)
                 self.stopFan()
                 self.stopHeat()
 
             if (t >= self.parameters.MAX_TEMPERATURE):
-                logging.debug("Temperature is greater than MAX %s", self.parameters.MAX_TEMPERATURE)
+                self.log.debug("Temperature is greater than MAX %s", self.parameters.MAX_TEMPERATURE)
                 self.stopHeat()
                 self.__scheduleFans()
 
             if (h < self.parameters.MIN_HUMIDITY):
-                logging.debug("Humidity is lower than MIN %s", self.parameters.MIN_HUMIDITY)
+                self.log.debug("Humidity is lower than MIN %s", self.parameters.MIN_HUMIDITY)
                 self.__scheduleHumidifier()
 
             if (h >= self.parameters.MIN_HUMIDITY and h < self.parameters.MAX_HUMIDITY):
-                logging.debug("Humidity is in range MIN-MAX %s-%s", self.parameters.MIN_HUMIDITY, self.parameters.MAX_HUMIDITY)
+                self.log.debug("Humidity is in range MIN-MAX %s-%s", self.parameters.MIN_HUMIDITY, self.parameters.MAX_HUMIDITY)
 
             if (h >= self.parameters.MAX_HUMIDITY):
-                logging.debug("Humidity is greater than MAX %s", self.parameters.MIN_HUMIDITY)
+                self.log.debug("Humidity is greater than MAX %s", self.parameters.MIN_HUMIDITY)
                 self.__scheduleFans()
 
             self.status.inRange=(t >= self.parameters.MIN_TEMPERATURE and t < self.parameters.MAX_TEMPERATURE) and (h >= self.parameters.MIN_HUMIDITY and h < self.parameters.MAX_HUMIDITY)
@@ -122,7 +123,7 @@ class StationController:
         if (self.status.fanScheduledTicks > 0):
             # Decrease scheduled fan time one cycle
             self.status.fanScheduledTicks-=1
-            logging.debug('Fan remaining ticks %s', self.status.fanScheduledTicks)
+            self.log.debug('Fan remaining ticks %s', self.status.fanScheduledTicks)
 
             if (self.status.fanScheduledTicks == 0):
                 # Last cycle for scheduled fans, stop them
@@ -131,7 +132,7 @@ class StationController:
         if (self.status.humidifierScheduledTicks > 0):
             # Decrease scheduled time one cycle
             self.status.humidifierScheduledTicks-=1
-            logging.debug('Humidifier remaining ticks %s', self.status.humidifierScheduledTicks)
+            self.log.debug('Humidifier remaining ticks %s', self.status.humidifierScheduledTicks)
 
             if (self.status.humidifierScheduledTicks == 0):
                 # Last cycle, stop it
@@ -140,49 +141,49 @@ class StationController:
 
     def startFan(self):
         if (not self.status.isFanEnabled):
-            logging.debug('Starting fans')
+            self.log.debug('Starting fans')
             GPIO.output(self.FAN_GPIO, GPIO.HIGH) # on
             self.status.isFanEnabled=True
-            logging.debug('Fans started')
+            self.log.debug('Fans started')
 
     def stopFan(self):
         if (self.status.isFanEnabled):
-            logging.debug('Stopping fans')
+            self.log.debug('Stopping fans')
             GPIO.output(self.FAN_GPIO, GPIO.LOW) # on
             self.status.isFanEnabled=False
-            logging.debug('Fans stopped')
+            self.log.debug('Fans stopped')
 
     def startHeat(self):
         if (not self.status.isHeatEnabled):
-            logging.debug('Starting heating')
+            self.log.debug('Starting heating')
             GPIO.output(self.HEAT_GPIO, False) # Start
             self.status.isHeatEnabled=True
-            logging.debug('Heating started')
+            self.log.debug('Heating started')
 
     def stopHeat(self):
         if (self.status.isHeatEnabled):
-            logging.debug('Stopping heating')
+            self.log.debug('Stopping heating')
             GPIO.output(self.HEAT_GPIO, True) # Stop
             self.status.isHeatEnabled=False
-            logging.debug('Heating stopped')
+            self.log.debug('Heating stopped')
 
     def startHumidifier(self):
         if (not self.status.ifHumidifierEnabled):
-            logging.debug('Starting humidifier')
+            self.log.debug('Starting humidifier')
             #GPIO.output(self.HUMIDIFIER_GPIO, False) # Start
             self.status.ifHumidifierEnabled=True
-            logging.debug('Humidifier started')
+            self.log.debug('Humidifier started')
 
     def stopHumidifier(self):
         if (self.status.ifHumidifierEnabled):
-            logging.debug('Stopping humidifier')
+            self.log.debug('Stopping humidifier')
             #GPIO.output(self.HUMIDIFIER_GPIO, False) # Start
             self.status.ifHumidifierEnabled=False
-            logging.debug('Humidifier stopped')
+            self.log.debug('Humidifier stopped')
 
     def tearDown(self):
         # disableFan, Heat and humidifier
-        logging.debug("Tearing down station controller")
+        self.log.debug("Tearing down station controller")
         self.stopFan()
         self.stopHeat()
         GPIO.cleanup()
