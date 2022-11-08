@@ -43,3 +43,6 @@ class StationStatus:
 
     def print(self, name):
         logging.debug("%s: temp:%s hum:%s isFan:%s isHeat:%s isHum:%s inRange:%s" % (name, self.temperature,self.humidity,self.isFanEnabled,self.isHeatEnabled,self.isHumidifierEnabled,self.inRange))
+
+    def clone(self):
+        return  StationStatus(self.temperature, self.humidity, self.isFanEnabled, self.fanScheduledTicks, self.isHeatEnabled, self.isHumidifierEnabled, self.humidifierScheduledTicks, self.inRange)
