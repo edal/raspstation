@@ -1,5 +1,6 @@
 import logging
 import signal
+import sys
 import time
 
 from DisplayController import DisplayController
@@ -23,6 +24,7 @@ FAN_GPIO = 17 # BOARD11
 
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.DEBUG, datefmt='%d-%m-%y %H:%M:%S')
+logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
 
 # Script init
 def init():

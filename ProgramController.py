@@ -1,3 +1,4 @@
+import logging
 import time
 from os.path import exists
 
@@ -18,17 +19,23 @@ class ProgramController:
     isDisplayingProgram: bool = False
 
     def __init__(self, programs, display: DisplayController, station: StationController):
+        logging.debug('Initializing program controller')
         self.programs = programs
         self.display = display
         self.station = station
+        self.currentProgram = 0
+        logging.debug('Program controller initialized')
 
     def getCurrentParameters(self):
+        logging.debug('Getting current program parameters...')
         return self.programs[self.currentProgram].parameters
 
     def setup(self):
+        logging.debug('Entering program setup...')
         self.currentProgram=self.loadLastUsedProgramOrDefault()
         self.remainingTimeout=self.DEFAULT_TIMEOUT
         self.displayCurrentProgram()
+        logging.debug('Program setup done')
 
     def onProgramButtonPress(self):
         self.currentProgram=(self.currentProgram+1)%len(self.programs)
@@ -39,6 +46,7 @@ class ProgramController:
 
 
     def displayCurrentProgram(self):
+        logging.debug('Displaying current program...')
         self.isDisplayingProgram=True
         while self.remainingTimeout > 0:
             self.display.displayProgramSelection(self.programs, self.currentProgram, self.remainingTimeout)
@@ -47,6 +55,7 @@ class ProgramController:
         self.isDisplayingProgram=False
         self.storeLastUsedProgram(self.currentProgram)
         self.station.setParameters(self.programs[self.currentProgram].parameters)
+        logging.debug('Displaying current program done')
 
 
     def loadLastUsedProgramOrDefault(self):

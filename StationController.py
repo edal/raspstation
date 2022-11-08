@@ -16,7 +16,7 @@ class StationController:
     FAN_PWM_GPIO: int
 
     # Define default times in ticks/cycles (aprox 1 sec)
-    DEFAULT_FAN_TICKS: int = 9
+    DEFAULT_FAN_TICKS: int = 4
     DEFAUL_SENSOR_TICKS: int = 10
     DEFAULT_HUMIDITY_TICKS: int = 2
 
