@@ -17,6 +17,7 @@ class CsvLogger:
             if (not s.equals(self.previousStatus)):
                 row_contents = [time.strftime('%d/%m/%y %H:%M:%S'),'{:0.1f}'.format(s.temperature),'{:0.1f}'.format(s.humidity),s.isFanEnabled,s.isHeatEnabled, s.isHumidifierEnabled]
                 self.__appendListAsRow(row_contents)
+                self.previousStatus=s
         except Exception as e:
             print("An error ocurred storing csv register: ", e)
 
