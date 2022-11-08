@@ -22,3 +22,15 @@ class StationStatus:
         self.humidifierScheduledTicks=humidifierScheduledTicks
         self.inRange = inRange
 
+    def equals(self, other ):
+        try:
+            return other is not None and (self.temperature==other.temperature and
+                    self.humidity==other.humidity and
+                    self.isFanEnabled==other.isFanEnabled and
+                    self.fanScheduledTicks==other.fanScheduledTicks and
+                    self.isHeatEnabled==other.isHeatEnabled and
+                    self.isHumidifierEnabled==other.isHumidifierEnabled and
+                    self.humidifierScheduledTicks==other.humidifierScheduledTicks and
+                    self.inRange==other.inRange)
+        except:
+            return False
