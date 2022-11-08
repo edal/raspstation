@@ -28,7 +28,6 @@ class ProgramController:
         self.log.debug('Program controller initialized')
 
     def getCurrentParameters(self):
-        self.log.debug('Getting current program parameters...')
         return self.programs[self.currentProgram].parameters
 
     def setup(self):
