@@ -168,17 +168,17 @@ class StationController:
             self.log.debug('Heating stopped')
 
     def startHumidifier(self):
-        if (not self.status.ifHumidifierEnabled):
+        if (not self.status.isHumidifierEnabled):
             self.log.debug('Starting humidifier')
             #GPIO.output(self.HUMIDIFIER_GPIO, False) # Start
-            self.status.ifHumidifierEnabled=True
+            self.status.isHumidifierEnabled=True
             self.log.debug('Humidifier started')
 
     def stopHumidifier(self):
-        if (self.status.ifHumidifierEnabled):
+        if (self.status.isHumidifierEnabled):
             self.log.debug('Stopping humidifier')
             #GPIO.output(self.HUMIDIFIER_GPIO, False) # Start
-            self.status.ifHumidifierEnabled=False
+            self.status.isHumidifierEnabled=False
             self.log.debug('Humidifier stopped')
 
     def tearDown(self):
