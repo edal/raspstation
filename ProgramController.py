@@ -9,7 +9,7 @@ from StationController import StationController
 
 class ProgramController:
     log = logging.getLogger('ProgramController')
-    PROGRAM_FILE="storedProgram"
+    PROGRAM_FILE="/home/funghi/raspstation/storedProgram.conf"
     DEFAULT_TIMEOUT=5
 
     currentProgram: int
@@ -76,8 +76,7 @@ class ProgramController:
 
     def storeLastUsedProgram(self, program):
         try:
-            with open(self.PROGRAM_FILE, "r+") as file:
-                file.truncate(0)
+            with open(self.PROGRAM_FILE, "w") as file:
                 file.write(str(program))
                 file.close()
         except Exception as e:
