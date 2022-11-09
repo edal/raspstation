@@ -74,8 +74,9 @@ class ProgramController:
             return default
 
     def storeLastUsedProgram(self, program):
-        file = open(self.PROGRAM_FILE, "w")
-        file.write(str(program))
-        file.close()
+        with open(self.PROGRAM_FILE, "r+") as file:
+            file.truncate(0)
+            file.write(str(program))
+            file.close()
 
 
