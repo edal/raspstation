@@ -67,16 +67,20 @@ class ProgramController:
                 p = file.readline()
                 file.close()
                 return int(p)
-            except:
-                self.log.warn('There was an error loading last program from file. Defaulting to x')
+            except Exception as e:
+                self.log.warn('There was an error loading last program from file. Defaulting to %s', default, e)
                 return default
         else:
+            self.log.debug('File %s not found, Defaulting to %s', self.PROGRAM_FILE, default)
             return default
 
     def storeLastUsedProgram(self, program):
-        with open(self.PROGRAM_FILE, "r+") as file:
-            file.truncate(0)
-            file.write(str(program))
-            file.close()
+        try:
+            with open(self.PROGRAM_FILE, "r+") as file:
+                file.truncate(0)
+                file.write(str(program))
+                file.close()
+        except Exception as e:
+            self.log.warn("An error ocurred storing last user program register: ", e)
 
 
