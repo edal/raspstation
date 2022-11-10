@@ -1,6 +1,7 @@
 import logging
 import time
 
+import RPi.GPIO as GPIO
 from RPLCD.i2c import CharLCD
 
 from Program import Program
@@ -12,7 +13,7 @@ class DisplayController:
     log = logging.getLogger('DisplayController')
     # Internal state
     lcd: CharLCD
-
+    backlightGpio: int
 
     clearedSplash=False
 
@@ -21,8 +22,9 @@ class DisplayController:
     tick: int = 0
 
 
-    def __init__(self):
+    def __init__(self, backlightGpio=27):
         self.log.debug('DisplayController init')
+        self.backlightGpio = backlightGpio
         # Initialise the LCD
         lcdmode = 'i2c'
         cols = 20
@@ -35,6 +37,8 @@ class DisplayController:
 
         self.__defineCustomCharacters()
         self.__splashScreen()
+        GPIO.setup(self.backlightGpio, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.add_event_detect(self.backlightGpio,GPIO.BOTH,callback=backlight_button_callback)
 
     # Custom animation to serve as splash screen
     def __splashScreen(self):
@@ -186,3 +190,10 @@ class DisplayController:
         self.lcd.backlight_enabled = False
         # Clear the LCD screen
         self.lcd.close(clear=True)
+
+    def toggleBacklight(self):
+        self.lcd.backlight_enabled = not self.lcd.backlight_enabled
+
+    def backlight_button_callback(self, channel):
+        self.log.debug('Backlight button pressed')
+        self.toggleBacklight()
