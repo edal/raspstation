@@ -191,6 +191,7 @@ class DisplayController:
         self.lcd.backlight_enabled = False
         # Clear the LCD screen
         self.lcd.close(clear=True)
+        GPIO.cleanup()
 
     def toggleBacklight(self):
         self.lcd.backlight_enabled = not self.lcd.backlight_enabled
