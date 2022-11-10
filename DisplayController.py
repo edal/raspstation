@@ -37,7 +37,7 @@ class DisplayController:
 
         self.__defineCustomCharacters()
         self.__splashScreen()
-        GPIO.setup(self.backlightGpio, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(self.backlightGpio, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(self.backlightGpio,GPIO.BOTH,callback=backlight_button_callback)
 
     # Custom animation to serve as splash screen
