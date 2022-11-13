@@ -1,5 +1,6 @@
 import logging
 import time
+from threading import Semaphore
 
 import RPi.GPIO as GPIO
 from RPLCD.i2c import CharLCD
@@ -17,6 +18,8 @@ class DisplayController:
 
     clearedSplash=False
     isDisplayingProgramSelection: bool=False
+
+    lcdPrinting: Semaphore=Semaphore()
 
 
     MAX_TICKS: int = 30
@@ -61,6 +64,7 @@ class DisplayController:
         self.tick=(self.tick+1) % self.MAX_TICKS
 
         if (not self.isDisplayingProgramSelection):
+            self.lcdPrinting.acquire()
             t = '{:0.1f}'.format(status.temperature)
             h = '{:.0f}'.format(status.humidity)
 
@@ -131,8 +135,10 @@ class DisplayController:
             else:
                 self.lcd.cursor_pos = (3, 1)
                 self.lcd.write_string('    ')
+            self.lcdPrinting.release()
 
     def displayProgramSelection(self, programs, programIndex, remainingTimeout: int):
+        self.lcdPrinting.acquire()
         self.isDisplayingProgramSelection=True
         self.lcd.cursor_pos = (0,0)
         self.lcd.write_string(' Program selection: ')
@@ -144,6 +150,7 @@ class DisplayController:
         self.lcd.write_string(' %d-%d%s %d-%d%% ' % (p.parameters.MIN_TEMPERATURE, p.parameters.MAX_TEMPERATURE, CELSIUS, p.parameters.MIN_HUMIDITY, p.parameters.MAX_HUMIDITY))
         self.lcd.cursor_pos = (3,0)
         self.lcd.write_string('         %ss' % remainingTimeout)
+        self.lcdPrinting.release()
 
     def endDisplayProgramSelection(self):
         self.isDisplayingProgramSelection=False
