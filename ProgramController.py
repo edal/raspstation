@@ -12,7 +12,7 @@ from StationController import StationController
 class ProgramController:
     log = logging.getLogger('ProgramController')
     PROGRAM_FILE="/home/funghi/raspstation/storedProgram.conf"
-    DEFAULT_TIMEOUT=5
+    DEFAULT_TIMEOUT=3
 
     currentProgram: int
     programs = []
@@ -46,12 +46,11 @@ class ProgramController:
         self.displayCurrentProgram()
         self.log.debug('Program setup done')
 
-    def onProgramButtonPress(self):
-        self.currentProgram=(self.currentProgram+1)%len(self.programs)
-        self.remainingTimeout=self.DEFAULT_TIMEOUT
-
-        if (not self.isDisplayingProgram):
-            self.displayCurrentProgram()
+    def onProgramButtonPress(self, channel):
+        self.log.debug('Select button pressed')
+        if (self.isDisplayingProgram):
+            self.currentProgram=(self.currentProgram+1)%len(self.programs)
+            self.remainingTimeout=self.DEFAULT_TIMEOUT
 
 
     def displayCurrentProgram(self):
