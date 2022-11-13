@@ -182,14 +182,11 @@ class StationController:
             self.log.debug('Humidifier stopped')
 
     def tearDown(self):
-        try:
-            # disableFan, Heat and humidifier
-            self.log.debug("Tearing down station controller")
-            self.stopFan()
-            self.stopHeat()
-            GPIO.cleanup()
-        finally:
-            self.log.debug("Station controller teared down")
+        # disableFan, Heat and humidifier
+        self.log.debug("Tearing down station controller")
+        self.stopFan()
+        self.stopHeat()
+        GPIO.cleanup()
 
     def __getSensorReading(self):
         sensor=Adafruit_DHT.DHT11

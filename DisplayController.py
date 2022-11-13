@@ -186,15 +186,12 @@ class DisplayController:
         self.lcd.create_char(SAD_INDEX, sad)
 
     def tearDown(self):
-        try:
-            self.log.debug("Tearing down display controller")
-            # Switch off backlight
-            self.lcd.backlight_enabled = False
-            # Clear the LCD screen
-            self.lcd.close(clear=True)
-            GPIO.cleanup()
-        finally:
-            self.log.debug("Display controller teared down")
+        self.log.debug("Tearing down display controller")
+        # Switch off backlight
+        self.lcd.backlight_enabled = False
+        # Clear the LCD screen
+        self.lcd.close(clear=True)
+        GPIO.cleanup()
 
 
     def toggleBacklight(self):
