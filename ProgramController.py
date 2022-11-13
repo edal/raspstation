@@ -50,10 +50,12 @@ class ProgramController:
         self.log.debug('Select button pressed')
 
         if (self.isDisplayingProgram):
+            self.log.debug('Already selecting program, rotating from %s to next program...', self.currentProgram)
             self.currentProgram=(self.currentProgram+1)%len(self.programs)
             self.remainingTimeout=self.DEFAULT_TIMEOUT
 
         if (not self.isDisplayingProgram):
+            self.log.debug('Showing current program %s', self.currentProgram)
             self.remainingTimeout=self.DEFAULT_TIMEOUT
             self.displayCurrentProgram()
 
