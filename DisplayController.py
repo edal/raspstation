@@ -16,6 +16,7 @@ class DisplayController:
     backlightGpio: int
 
     clearedSplash=False
+    isDisplayingProgramSelection: bool=False
 
 
     MAX_TICKS: int = 30
@@ -59,88 +60,93 @@ class DisplayController:
         # Get current tick/cycle
         self.tick=(self.tick+1) % self.MAX_TICKS
 
-        t = '{:0.1f}'.format(status.temperature)
-        h = '{:.0f}'.format(status.humidity)
+        if (not self.isDisplayingProgramSelection):
+            t = '{:0.1f}'.format(status.temperature)
+            h = '{:.0f}'.format(status.humidity)
 
-        tempChar=' '
-        if (status.previousTemperature is not None):
-            if (status.temperature == status.previousTemperature):
-                tempChar='='
-            elif (status.temperature > status.previousTemperature):
-                tempChar=UP
+            tempChar=' '
+            if (status.previousTemperature is not None):
+                if (status.temperature == status.previousTemperature):
+                    tempChar='='
+                elif (status.temperature > status.previousTemperature):
+                    tempChar=UP
+                else:
+                    tempChar=DOWN
+
+            humiChar=' '
+            if (status.previousHumidity is not None):
+                if (status.humidity == status.previousHumidity):
+                    humiChar='='
+                elif (status.humidity > status.previousHumidity):
+                    humiChar=UP
+                else:
+                    humiChar=DOWN
+
+            if (not self.clearedSplash):
+                self.lcd.clear()
+                self.clearedSplash=True
+
+            if (status.inRange):
+                FACE=HAPPY
             else:
-                tempChar=DOWN
+                FACE=SAD
 
-        humiChar=' '
-        if (status.previousHumidity is not None):
-            if (status.humidity == status.previousHumidity):
-                humiChar='='
-            elif (status.humidity > status.previousHumidity):
-                humiChar=UP
+            heart_array = [HEART, ' ']
+            heart_sprite = heart_array[self.tick%(len(heart_array))]
+            title_fungi = heart_sprite + '   Fungistation ' + FACE + ' ' + heart_sprite
+            title_program = heart_sprite + '  %d-%d%s %d-%d%% ' % (parameters.MIN_TEMPERATURE, parameters.MAX_TEMPERATURE, CELSIUS, parameters.MIN_HUMIDITY, parameters.MAX_HUMIDITY) + FACE + ' ' + heart_sprite
+
+            if (self.tick%6 < 3):
+                title_sprite = title_fungi
             else:
-                humiChar=DOWN
+                title_sprite = title_program
 
-        if (not self.clearedSplash):
-            self.lcd.clear()
-            self.clearedSplash=True
-
-        if (status.inRange):
-            FACE=HAPPY
-        else:
-            FACE=SAD
-
-        heart_array = [HEART, ' ']
-        heart_sprite = heart_array[self.tick%(len(heart_array))]
-        title_fungi = heart_sprite + '   Fungistation ' + FACE + ' ' + heart_sprite
-        title_program = heart_sprite + '  %d-%d%s %d-%d%% ' % (parameters.MIN_TEMPERATURE, parameters.MAX_TEMPERATURE, CELSIUS, parameters.MIN_HUMIDITY, parameters.MAX_HUMIDITY) + FACE + ' ' + heart_sprite
-
-        if (self.tick%6 < 3):
-            title_sprite = title_fungi
-        else:
-            title_sprite = title_program
-
-        self.lcd.cursor_pos = (0, 0)
-        self.lcd.write_string(title_sprite)
-        self.lcd.cursor_pos = (1, 0)
-        self.lcd.write_string(' ' + TEMP + ' ' + t + CELSIUS + tempChar)
-        self.lcd.write_string('    ')
-        self.lcd.write_string(DROP + ' ' + h + '%' + humiChar)
-
-        #self.lcd.cursor_pos = (2, 4)
-        #self.lcd.write_string('%d-%d%s %d-%d%%' % (parameters.MIN_TEMPERATURE, parameters.MAX_TEMPERATURE, CELSIUS, parameters.MIN_HUMIDITY, parameters.MAX_HUMIDITY))
-
-        if (status.fanScheduledTicks > 0):
-            self.lcd.cursor_pos = (3, 8)
-            self.lcd.write_string('%s:%ss' % (FAN, status.fanScheduledTicks))
-        else:
-            self.lcd.cursor_pos = (3, 8)
-            self.lcd.write_string('     ')
-
-        if (status.humidifierScheduledTicks > 0):
-            self.lcd.cursor_pos = (3, 15)
-            self.lcd.write_string('%s:%ss' % (DROP,status.humidifierScheduledTicks))
-        else:
-            self.lcd.cursor_pos = (3, 15)
+            self.lcd.cursor_pos = (0, 0)
+            self.lcd.write_string(title_sprite)
+            self.lcd.cursor_pos = (1, 0)
+            self.lcd.write_string(' ' + TEMP + ' ' + t + CELSIUS + tempChar)
             self.lcd.write_string('    ')
+            self.lcd.write_string(DROP + ' ' + h + '%' + humiChar)
 
-        if (status.isHeatEnabled == True):
-            self.lcd.cursor_pos = (3, 1)
-            self.lcd.write_string(TEMP + ':ON')
-        else:
-            self.lcd.cursor_pos = (3, 1)
-            self.lcd.write_string('    ')
+            #self.lcd.cursor_pos = (2, 4)
+            #self.lcd.write_string('%d-%d%s %d-%d%%' % (parameters.MIN_TEMPERATURE, parameters.MAX_TEMPERATURE, CELSIUS, parameters.MIN_HUMIDITY, parameters.MAX_HUMIDITY))
+
+            if (status.fanScheduledTicks > 0):
+                self.lcd.cursor_pos = (3, 8)
+                self.lcd.write_string('%s:%ss' % (FAN, status.fanScheduledTicks))
+            else:
+                self.lcd.cursor_pos = (3, 8)
+                self.lcd.write_string('     ')
+
+            if (status.humidifierScheduledTicks > 0):
+                self.lcd.cursor_pos = (3, 15)
+                self.lcd.write_string('%s:%ss' % (DROP,status.humidifierScheduledTicks))
+            else:
+                self.lcd.cursor_pos = (3, 15)
+                self.lcd.write_string('    ')
+
+            if (status.isHeatEnabled == True):
+                self.lcd.cursor_pos = (3, 1)
+                self.lcd.write_string(TEMP + ':ON')
+            else:
+                self.lcd.cursor_pos = (3, 1)
+                self.lcd.write_string('    ')
 
     def displayProgramSelection(self, programs, programIndex, remainingTimeout: int):
+        self.isDisplayingProgramSelection=True
         self.lcd.cursor_pos = (0,0)
         self.lcd.write_string(' Program selection: ')
         self.lcd.cursor_pos = (1,0)
         p = programs[programIndex]
-        self.lcd.write_string(' %s: %s' % (p.name, p.description))
+        self.lcd.write_string(' %s: %s' % (p.name, p.description.ljust(10)))
         self.lcd.cursor_pos = (2,0)
 
         self.lcd.write_string(' %d-%d%s %d-%d%% ' % (p.parameters.MIN_TEMPERATURE, p.parameters.MAX_TEMPERATURE, CELSIUS, p.parameters.MIN_HUMIDITY, p.parameters.MAX_HUMIDITY))
         self.lcd.cursor_pos = (3,0)
         self.lcd.write_string('         %ss' % remainingTimeout)
+
+    def endDisplayProgramSelection(self):
+        self.isDisplayingProgramSelection=False
 
     # LCD allows to store 8 cutsom characters. Let's define there
     def __defineCustomCharacters(self):

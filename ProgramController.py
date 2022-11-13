@@ -48,9 +48,13 @@ class ProgramController:
 
     def onProgramButtonPress(self, channel):
         self.log.debug('Select button pressed')
+
         if (self.isDisplayingProgram):
             self.currentProgram=(self.currentProgram+1)%len(self.programs)
             self.remainingTimeout=self.DEFAULT_TIMEOUT
+
+        if (not self.isDisplayingProgram):
+            self.displayCurrentProgram()
 
 
     def displayCurrentProgram(self):
@@ -64,6 +68,7 @@ class ProgramController:
         self.storeLastUsedProgram(self.currentProgram)
         self.station.setParameters(self.programs[self.currentProgram].parameters)
         self.log.debug('Displaying current program done')
+        self.display.endDisplayProgramSelection()
 
 
     def loadLastUsedProgramOrDefault(self):
