@@ -39,7 +39,7 @@ class DisplayController:
         self.__splashScreen()
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.backlightGpio, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.add_event_detect(self.backlightGpio,GPIO.FALLING,callback=self.backlight_button_callback,  bounceTime=50)
+        GPIO.add_event_detect(self.backlightGpio,GPIO.FALLING,callback=self.backlight_button_callback,  bouncetime=50)
 
     # Custom animation to serve as splash screen
     def __splashScreen(self):
