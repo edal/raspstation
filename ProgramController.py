@@ -54,6 +54,7 @@ class ProgramController:
             self.remainingTimeout=self.DEFAULT_TIMEOUT
 
         if (not self.isDisplayingProgram):
+            self.remainingTimeout=self.DEFAULT_TIMEOUT
             self.displayCurrentProgram()
 
 
