@@ -1,0 +1,13 @@
+[Unit]
+Description=Fungistation
+After=network-online.target
+
+[Service]
+ExecStart=python /home/funghi/raspstation/main.py
+WorkingDirectory=/home/funghi/raspstation/
+StandardOutput=inherit
+StandardError=inherit
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
