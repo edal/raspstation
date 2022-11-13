@@ -39,7 +39,7 @@ class DisplayController:
         self.__splashScreen()
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.backlightGpio, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.add_event_detect(self.backlightGpio,GPIO.FALLING,callback=self.backlight_button_callback)
+        GPIO.add_event_detect(self.backlightGpio,GPIO.FALLING,callback=self.backlight_button_callback,  bounceTime=50)
 
     # Custom animation to serve as splash screen
     def __splashScreen(self):
@@ -194,7 +194,7 @@ class DisplayController:
             self.lcd.close(clear=True)
             GPIO.cleanup()
         finally:
-            self.log.trace("Display controller teared down")
+            self.log.debug("Display controller teared down")
 
 
     def toggleBacklight(self):

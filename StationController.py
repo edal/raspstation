@@ -189,7 +189,7 @@ class StationController:
             self.stopHeat()
             GPIO.cleanup()
         finally:
-            self.log.trace("Station controller teared down")
+            self.log.debug("Station controller teared down")
 
     def __getSensorReading(self):
         sensor=Adafruit_DHT.DHT11
