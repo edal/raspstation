@@ -12,7 +12,7 @@ from StationController import StationController
 class ProgramController:
     log = logging.getLogger('ProgramController')
     PROGRAM_FILE="/home/funghi/raspstation/storedProgram.conf"
-    DEFAULT_TIMEOUT=3
+    DEFAULT_TIMEOUT=4
 
     currentProgram: int
     programs = []

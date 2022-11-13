@@ -19,7 +19,7 @@ class DisplayController:
     clearedSplash=False
     isDisplayingProgramSelection: bool=False
 
-    lcdPrinting: Semaphore=Semaphore()
+    lcdPrinting =Semaphore(1)
 
 
     MAX_TICKS: int = 30
