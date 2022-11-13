@@ -60,11 +60,12 @@ class DisplayController:
 
     # Method to show the provided status
     def syncDisplay(self, status: StationStatus, parameters: StationParameters):
-        # Get current tick/cycle
-        self.tick=(self.tick+1) % self.MAX_TICKS
-
         if (not self.isDisplayingProgramSelection):
+            # Await to lock to be released
             self.lcdPrinting.acquire()
+            # Get current tick/cycle
+            self.tick=(self.tick+1) % self.MAX_TICKS
+
             t = '{:0.1f}'.format(status.temperature)
             h = '{:.0f}'.format(status.humidity)
 
