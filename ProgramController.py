@@ -34,7 +34,7 @@ class ProgramController:
 
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.selectButtonGpio, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.add_event_detect(self.selectButtonGpio,GPIO.FALLING,callback=self.onProgramButtonPress,  bouncetime=50)
+        GPIO.add_event_detect(self.selectButtonGpio,GPIO.FALLING,callback=self.onProgramButtonPress,  bouncetime=100)
 
     def getCurrentParameters(self):
         return self.programs[self.currentProgram].parameters

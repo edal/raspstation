@@ -43,7 +43,7 @@ class DisplayController:
         self.__splashScreen()
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.backlightGpio, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.add_event_detect(self.backlightGpio,GPIO.FALLING,callback=self.backlight_button_callback,  bouncetime=50)
+        GPIO.add_event_detect(self.backlightGpio,GPIO.FALLING,callback=self.backlight_button_callback,  bouncetime=100)
 
     # Custom animation to serve as splash screen
     def __splashScreen(self):
@@ -152,10 +152,9 @@ class DisplayController:
 
     def endDisplayProgramSelection(self):
         self.isDisplayingProgramSelection=False
-
-        for i in range(3):
-            self.lcd.cursor_pos = (i, 0)
-            self.lcd.write_string(' '.ljust(20))
+        self.lcdPrinting.acquire()
+        self.lcd.clear()
+        self.lcdPrinting.release()
 
     # LCD allows to store 8 cutsom characters. Let's define there
     def __defineCustomCharacters(self):
