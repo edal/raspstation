@@ -66,10 +66,11 @@ class ProgramController:
             time.sleep(1)
             self.remainingTimeout-=1
         self.isDisplayingProgram=False
+        self.display.endDisplayProgramSelection()
         self.storeLastUsedProgram(self.currentProgram)
         self.station.setParameters(self.programs[self.currentProgram].parameters)
         self.log.debug('Displaying current program done')
-        self.display.endDisplayProgramSelection()
+
 
 
     def loadLastUsedProgramOrDefault(self):
