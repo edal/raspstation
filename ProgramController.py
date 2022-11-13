@@ -2,6 +2,8 @@ import logging
 import time
 from os.path import exists
 
+import RPi.GPIO as GPIO
+
 from DisplayController import DisplayController
 from Program import Program
 from StationController import StationController
@@ -19,13 +21,20 @@ class ProgramController:
     remainingTimeout: int
     isDisplayingProgram: bool = False
 
-    def __init__(self, programs, display: DisplayController, station: StationController):
+    selectButtonGpio: int
+
+    def __init__(self, programs, display: DisplayController, station: StationController, selectButtonGpio=22):
         self.log.debug('Initializing program controller')
         self.programs = programs
         self.display = display
         self.station = station
         self.currentProgram = 0
         self.log.debug('Program controller initialized')
+        self.selectButtonGpio = selectButtonGpio
+
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(self.selectButtonGpio, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.add_event_detect(self.selectButtonGpio,GPIO.FALLING,callback=self.onProgramButtonPress,  bouncetime=50)
 
     def getCurrentParameters(self):
         return self.programs[self.currentProgram].parameters
@@ -83,3 +92,6 @@ class ProgramController:
             self.log.warn("An error ocurred storing last user program register: ", e)
 
 
+    def tearDown(self):
+        self.log.debug("Tearing down program controller")
+        GPIO.cleanup()

@@ -66,6 +66,7 @@ def handle_exit(signum=0, frame=0):
         try:
             display.tearDown()
             controller.tearDown()
+            programmer.tearDown()
         except:
             pass
         finally:
