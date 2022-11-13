@@ -151,8 +151,8 @@ class DisplayController:
         self.lcdPrinting.release()
 
     def endDisplayProgramSelection(self):
-        self.isDisplayingProgramSelection=False
         self.lcdPrinting.acquire()
+        self.isDisplayingProgramSelection=False
         self.lcd.clear()
         self.lcdPrinting.release()
 
