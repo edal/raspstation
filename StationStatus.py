@@ -32,7 +32,7 @@ class StationStatus:
                     self.isFanEnabled==other.isFanEnabled and
                     #self.fanScheduledTicks==other.fanScheduledTicks and
                     self.isHeatEnabled==other.isHeatEnabled and
-                    self.isHumidifierEnabled==other.isHumidifierEnabled and
+                    #self.isHumidifierEnabled==other.isHumidifierEnabled and
                     #self.humidifierScheduledTicks==other.humidifierScheduledTicks and
                     self.inRange==other.inRange)
         except Exception as e:
