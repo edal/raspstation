@@ -15,6 +15,7 @@ class StationController:
     HEAT_GPIO: int
     FAN_GPIO: int
     FAN_PWM_GPIO: int
+    HUMIDIFIER_GPIO: int
 
     # Define default times in ticks/cycles (aprox 1 sec)
     DEFAULT_FAN_TICKS: int = 4
@@ -34,12 +35,13 @@ class StationController:
     fan_speed =  None
 
 
-    def __init__(self, temp_gpio, heat_gpio, fan_gpio, fan_pwm_gpio, parameters: StationParameters):
+    def __init__(self, temp_gpio, heat_gpio, fan_gpio, fan_pwm_gpio, humidifier_gpio, parameters: StationParameters):
         self.log.debug('StationController init')
         self.TEMP_GPIO = temp_gpio
         self.HEAT_GPIO = heat_gpio
         self.FAN_GPIO = fan_gpio
         self.FAN_PWM_GPIO = fan_pwm_gpio
+        self.HUMIDIFIER_GPIO = humidifier_gpio
         self.parameters = parameters
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.FAN_PWM_GPIO, GPIO.OUT)
@@ -49,6 +51,9 @@ class StationController:
         GPIO.setup(self.FAN_GPIO, GPIO.OUT)
         GPIO.output(self.FAN_GPIO, GPIO.LOW)
         GPIO.setup(self.HEAT_GPIO, GPIO.OUT)
+
+        GPIO.setup(self.HUMIDIFIER_GPIO, GPIO.OUT)
+        GPIO.output(self.HUMIDIFIER_GPIO, GPIO.LOW)
 
     def setParameters(self, parameters: StationParameters):
         self.parameters = parameters
@@ -170,14 +175,14 @@ class StationController:
     def startHumidifier(self):
         if (not self.status.isHumidifierEnabled):
             self.log.debug('Starting humidifier')
-            #GPIO.output(self.HUMIDIFIER_GPIO, False) # Start
+            GPIO.output(self.HUMIDIFIER_GPIO, False) # Start
             self.status.isHumidifierEnabled=True
             self.log.debug('Humidifier started')
 
     def stopHumidifier(self):
         if (self.status.isHumidifierEnabled):
             self.log.debug('Stopping humidifier')
-            #GPIO.output(self.HUMIDIFIER_GPIO, False) # Start
+            GPIO.output(self.HUMIDIFIER_GPIO, False) # Start
             self.status.isHumidifierEnabled=False
             self.log.debug('Humidifier stopped')
 

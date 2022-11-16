@@ -26,6 +26,7 @@ TEMP_GPIO=23 # BOARD16
 HEAT_GPIO = 24 # BOARD18
 FAN_PWM_GPIO = 18 # BOARD12
 FAN_GPIO = 17 # BOARD11
+HUMIDIFIER_GPIO=4 # BOARD7
 
 BACKLIGHT_GPIO=27 # BOARD13
 PROGRAM_SELECT=22 # BOARD15
@@ -38,7 +39,7 @@ def init():
 
     # Initialize main vars
     display = DisplayController()
-    controller = StationController(TEMP_GPIO, HEAT_GPIO, FAN_GPIO, FAN_PWM_GPIO, programs[0].parameters)
+    controller = StationController(TEMP_GPIO, HEAT_GPIO, FAN_GPIO, FAN_PWM_GPIO,HUMIDIFIER_GPIO, programs[0].parameters)
 
     programmer = ProgramController(programs, display, controller)
     csvLog = CsvLogger()

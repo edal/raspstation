@@ -147,7 +147,7 @@ class DisplayController:
 
         self.lcd.write_string(' %d-%d%s %d-%d%% ' % (p.parameters.MIN_TEMPERATURE, p.parameters.MAX_TEMPERATURE, CELSIUS, p.parameters.MIN_HUMIDITY, p.parameters.MAX_HUMIDITY))
         self.lcd.cursor_pos = (3,0)
-        self.lcd.write_string('         %ss' % remainingTimeout)
+        self.lcd.write_string('         %ss       ' % remainingTimeout)
         self.lcdPrinting.release()
 
     def endDisplayProgramSelection(self):
