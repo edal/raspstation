@@ -18,10 +18,10 @@ class CsvLogger:
             if (not s.equals(self.previousStatus)):
                 self.previousStatus=s.clone()
                 # contents with humidifier info
-                # row_contents = [time.strftime('%d/%m/%y %H:%M:%S'),'{:0.1f}'.format(s.temperature),'{:0.1f}'.format(s.humidity),s.isFanEnabled,s.isHeatEnabled, s.isHumidifierEnabled]
+                row_contents = [time.strftime('%d/%m/%y %H:%M:%S'),'{:0.1f}'.format(s.temperature),'{:0.1f}'.format(s.humidity),s.isFanEnabled,s.isHeatEnabled, s.isHumidifierEnabled]
 
                 # contents without humidifier info
-                row_contents = [time.strftime('%d/%m/%y %H:%M:%S'),'{:0.1f}'.format(s.temperature),'{:0.1f}'.format(s.humidity),s.isFanEnabled,s.isHeatEnabled]
+                #row_contents = [time.strftime('%d/%m/%y %H:%M:%S'),'{:0.1f}'.format(s.temperature),'{:0.1f}'.format(s.humidity),s.isFanEnabled,s.isHeatEnabled]
                 self.__appendListAsRow(row_contents)
         except Exception as e:
             print("An error ocurred storing csv register: ", e)

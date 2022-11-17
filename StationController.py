@@ -78,14 +78,16 @@ class StationController:
                 self.startHeat()
                 self.stopFan()
 
-            if (t >= self.parameters.MIN_TEMPERATURE and t < self.parameters.MAX_TEMPERATURE):
-                self.log.debug("Temperature is in range MIN-MAX %s-%s", self.parameters.MIN_TEMPERATURE, self.parameters.MAX_TEMPERATURE)
-                self.stopFan()
+            if (t >= self.parameters.MIN_TEMPERATURE):
+                self.log.debug("Temperature is major than min MIN-MAX %s-%s", self.parameters.MIN_TEMPERATURE, self.parameters.MAX_TEMPERATURE)
                 self.stopHeat()
+
+            if ( t < self.parameters.MAX_TEMPERATURE):
+                self.log.debug("Temperature is lower than max MIN-MAX %s-%s", self.parameters.MIN_TEMPERATURE, self.parameters.MAX_TEMPERATURE)
+                self.stopFan()
 
             if (t >= self.parameters.MAX_TEMPERATURE):
                 self.log.debug("Temperature is greater than MAX %s", self.parameters.MAX_TEMPERATURE)
-                self.stopHeat()
                 self.__scheduleFans()
 
             if (h < self.parameters.MIN_HUMIDITY):
