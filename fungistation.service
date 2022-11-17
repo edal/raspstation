@@ -7,7 +7,7 @@ ExecStart=python /home/funghi/raspstation/main.py
 WorkingDirectory=/home/funghi/raspstation/
 StandardOutput=inherit
 StandardError=inherit
-Restart=on-failure
+Restart=always
 
 [Install]
 WantedBy=multi-user.target
