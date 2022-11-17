@@ -51,6 +51,7 @@ class StationController:
         GPIO.setup(self.FAN_GPIO, GPIO.OUT)
         GPIO.output(self.FAN_GPIO, GPIO.LOW)
         GPIO.setup(self.HEAT_GPIO, GPIO.OUT)
+        GPIO.output(self.HEAT_GPIO, True) # Stop
 
         GPIO.setup(self.HUMIDIFIER_GPIO, GPIO.OUT)
         GPIO.output(self.HUMIDIFIER_GPIO, GPIO.LOW)
