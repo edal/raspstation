@@ -1,4 +1,5 @@
 import logging
+import threading
 import time
 from os.path import exists
 
@@ -57,7 +58,8 @@ class ProgramController:
         if (not self.isDisplayingProgram):
             self.log.debug('Showing current program %s', self.currentProgram)
             self.remainingTimeout=self.DEFAULT_TIMEOUT
-            self.displayCurrentProgram()
+            x = threading.Thread(target=self.displayCurrentProgram)
+            x.start()
 
 
     def displayCurrentProgram(self):
