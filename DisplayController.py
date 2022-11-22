@@ -139,15 +139,19 @@ class DisplayController:
         self.lcdPrinting.acquire()
         self.isDisplayingProgramSelection=True
         self.lcd.cursor_pos = (0,0)
-        self.lcd.write_string(' Program selection: ')
+        str = 'Program selection:'
+        self.lcd.write_string(str.center(20))
         self.lcd.cursor_pos = (1,0)
         p = programs[programIndex]
-        self.lcd.write_string(' %s: %s' % (p.name, p.description.ljust(10)))
+
+        str = ' %s: %s' % (p.name, p.description)
+        self.lcd.write_string(str.ljust(20))
         self.lcd.cursor_pos = (2,0)
 
         self.lcd.write_string(' %d-%d%s %d-%d%% ' % (p.parameters.MIN_TEMPERATURE, p.parameters.MAX_TEMPERATURE, CELSIUS, p.parameters.MIN_HUMIDITY, p.parameters.MAX_HUMIDITY))
         self.lcd.cursor_pos = (3,0)
-        self.lcd.write_string('         %ss       ' % remainingTimeout)
+        str = '%s' % remainingTimeout
+        self.lcd.write_string(str.center(20))
         self.lcdPrinting.release()
 
     def endDisplayProgramSelection(self):
