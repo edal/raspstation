@@ -230,7 +230,7 @@ class StationController:
         file_exists = exists(self.FAN_EXECUTION_FILE)
         default=0
         linesToRead=10
-        today=datetime.now().day()
+        today=datetime.now().day
         todayExecutionList=[]
         if (file_exists):
             try:
@@ -241,7 +241,7 @@ class StationController:
                     print(line, end ='')
                     d = datetime.strptime(line, self.FAN_EXECUTION_FILE_DATE_FORMAT)
                     self.debug('Fan register read %s', d)
-                    if (today == d.day()):
+                    if (today == d.day):
                         self.debug('Fan register found for today %s', d)
                         todayExecutionList.append(d)
                     else:
