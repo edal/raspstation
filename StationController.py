@@ -115,7 +115,7 @@ class StationController:
         if (self.tick%self.parameters.fanCycleDelay == 1):
             self.log.debug("Fan cycle achieved, checking today's fan executions...")
             # Don't exceed scheduled fans
-            if (self.__getFansExecutedToday < self.parameters.scheduledFansPerDay):
+            if (self.__getFansExecutedToday() < self.parameters.scheduledFansPerDay):
                 self.log.info("Initiating parameterized oxygenation")
                 self.__scheduleFans()
             else:
