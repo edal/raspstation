@@ -115,7 +115,7 @@ class StationController:
         if (self.tick%self.parameters.fanCycleDelay == 1):
             self.log.debug("Fan cycle achieved, checking today's fan executions...")
             # Don't exceed scheduled fans
-            if (self.__getFansExecutedToday() < self.parameters.scheduledFansPerDay):
+            if (self.__getFansExecutedToday < self.parameters.scheduledFansPerDay):
                 self.log.info("Initiating parameterized oxygenation")
                 self.__scheduleFans()
             else:
@@ -230,10 +230,12 @@ class StationController:
         file_exists = exists(self.FAN_EXECUTION_FILE)
         self.log.debug('__getFansExecutedToday:: %s file_exists %s', self.FAN_EXECUTION_FILE, file_exists)
         default=0
-        linesToRead=10
-        today=datetime.now().day
-        todayExecutionList=[]
+
         if (file_exists):
+            linesToRead=10
+            today=datetime.now()
+            todayExecutionList=[]
+
             try:
                 file = open(self.FAN_EXECUTION_FILE, "r")
                 # loop to read iterate
@@ -242,7 +244,7 @@ class StationController:
                     print(line, end ='')
                     d = datetime.strptime(line, self.FAN_EXECUTION_FILE_DATE_FORMAT)
                     self.log.debug('Fan register read %s', d)
-                    if (today == d.day):
+                    if (today.year == d.year and today.month == d.month and today.day == d.day):
                         self.log.debug('Fan register found for today %s', d)
                         todayExecutionList.append(d)
                     else:
@@ -253,6 +255,6 @@ class StationController:
                 self.log.warn('There was an error loading last fan executions. Defaulting to %s', default, e)
                 return default
         else:
-            self.log.debug('File %s not found, Defaulting to %s', self.PROGRAM_FILE, default)
+            self.log.debug('File %s not found, Defaulting to %s', self.FAN_EXECUTION_FILE, default)
             return default
 
