@@ -36,7 +36,7 @@ class StationController:
     status: StationStatus = StationStatus(0.0, 0, False, 0, False)
     parameters: StationParameters = None
     tick: int = 0
-    FAN_EXECUTION_FILE="fanstats.csv"
+    FAN_EXECUTION_FILE="/home/funghi/raspstation/fanstats.csv"
     FAN_EXECUTION_FILE_DATE_FORMAT="%d/%m/%y %H:%M:%S.%f"
 
     fan_speed =  None
