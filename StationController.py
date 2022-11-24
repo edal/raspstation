@@ -220,8 +220,8 @@ class StationController:
 
     def __storeFanExecution(self):
         try:
-            with open(self.FAN_EXECUTION_FILE, "w") as file:
-                file.write(datetime.now().strftime(self.FAN_EXECUTION_FILE_DATE_FORMAT))
+            with open(self.FAN_EXECUTION_FILE, "a") as file:
+                file.write('%s\n' % datetime.now().strftime(self.FAN_EXECUTION_FILE_DATE_FORMAT))
                 file.close()
         except Exception as e:
             self.log.warn("An error ocurred storing last fan execution: ", e)
