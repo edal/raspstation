@@ -148,9 +148,11 @@ class DisplayController:
         self.lcd.write_string(str.ljust(20))
         self.lcd.cursor_pos = (2,0)
 
-        self.lcd.write_string(' %d-%d%s %d-%d%% ' % (p.parameters.MIN_TEMPERATURE, p.parameters.MAX_TEMPERATURE, CELSIUS, p.parameters.MIN_HUMIDITY, p.parameters.MAX_HUMIDITY))
+        str = ' %d-%d%s %d-%d%% *%d' % (p.parameters.MIN_TEMPERATURE, p.parameters.MAX_TEMPERATURE, CELSIUS, p.parameters.MIN_HUMIDITY, p.parameters.MAX_HUMIDITY, p.parameters.scheduledFansPerDay)
+        self.lcd.write_string(str.ljust(20))
+
         self.lcd.cursor_pos = (3,0)
-        str = '%s' % remainingTimeout
+        str = '%ss' % remainingTimeout
         self.lcd.write_string(str.center(20))
         self.lcdPrinting.release()
 
