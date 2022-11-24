@@ -18,9 +18,11 @@ from StationParameters import StationParameters
 p1=Program('P1','Initial', StationParameters(23.0, 25.0, 90, 100, 1))
 p2=Program('P2','Primordium', StationParameters(23.0, 25.0, 80, 90, 2))
 p3=Program('P3','Grow', StationParameters(23.0, 25.0, 80, 90, 4))
+a1=Program('A1','A+: Initial', StationParameters(26.0, 29.0, 90, 100, 1))
+a2=Program('A2','A+: Primordium', StationParameters(26.0, 29.0, 80, 90, 2))
+a3=Program('A3','A+: Grow', StationParameters(26.0, 29.0, 80, 90, 4))
 
-programs = [p1, p2, p3]
-
+programs = [p1, p2, p3, a1, a2, a3]
 # HARDWARE CONFIG
 TEMP_GPIO=23 # BOARD16
 HEAT_GPIO = 24 # BOARD18

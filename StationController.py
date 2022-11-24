@@ -1,5 +1,7 @@
 import logging
 import time
+from datetime import datetime
+from os.path import exists
 
 import Adafruit_DHT
 import RPi.GPIO as GPIO
@@ -22,15 +24,20 @@ class StationController:
     DEFAUL_SENSOR_TICKS: int = 10
     DEFAULT_HUMIDITY_TICKS: int = 2
 
+    TICKS_PER_DAY: int =60*60*24
+
+
     # Default fan speed
     DEFAULT_FAN_SPEED: int = 100
 
-    MAX_TICKS: int = max(DEFAULT_FAN_TICKS, DEFAUL_SENSOR_TICKS, DEFAULT_FAN_TICKS, DEFAULT_HUMIDITY_TICKS)
+    MAX_TICKS: int = TICKS_PER_DAY
 
     # internal state
     status: StationStatus = StationStatus(0.0, 0, False, 0, False)
     parameters: StationParameters = None
     tick: int = 0
+    FAN_EXECUTION_FILE="fanstats.csv"
+    FAN_EXECUTION_FILE_DATE_FORMAT="%d/%m/%y %H:%M:%S.%f"
 
     fan_speed =  None
 
@@ -104,6 +111,16 @@ class StationController:
 
             self.status.inRange=(t >= self.parameters.MIN_TEMPERATURE and t < self.parameters.MAX_TEMPERATURE) and (h >= self.parameters.MIN_HUMIDITY and h < self.parameters.MAX_HUMIDITY)
 
+        # Control parameterized oxigenation
+        if (self.tick%self.parameters.fanCycleDelay == 1):
+            self.log.debug("Fan cycle achieved, checking today's fan executions...")
+            # Don't exceed scheduled fans
+            if (self.__getFansExecutedToday < self.parameters.scheduledFansPerDay):
+                self.log.info("Initiating parameterized oxygenation")
+                self.__scheduleFans()
+            else:
+                self.log.info("Skipping parameterized oxygenation as %s executions have been executed today", self.parameters.scheduledFansPerDay)
+
 
     def getExecutionStatus(self):
         return self.status
@@ -116,6 +133,7 @@ class StationController:
         if (self.status.fanScheduledTicks == 0):
             self.status.fanScheduledTicks = duration
             self.startFan()
+            self.__storeFanExecution()
 
     def __scheduleHumidifier(self, duration: int = -1):
         if (duration <= 0):
@@ -200,5 +218,40 @@ class StationController:
         sensor=Adafruit_DHT.DHT11
         return Adafruit_DHT.read_retry(sensor, self.TEMP_GPIO)
 
+    def __storeFanExecution(self):
+        try:
+            with open(self.FAN_EXECUTION_FILE, "w") as file:
+                file.write(datetime.now().strftime(self.FAN_EXECUTION_FILE_DATE_FORMAT))
+                file.close()
+        except Exception as e:
+            self.log.warn("An error ocurred storing last fan execution: ", e)
 
+    def __getFansExecutedToday(self):
+        file_exists = exists(self.FAN_EXECUTION_FILE)
+        default=0
+        linesToRead=10
+        today=datetime.now().day()
+        todayExecutionList=[]
+        if (file_exists):
+            try:
+                file = open(self.FAN_EXECUTION_FILE, "r")
+                # loop to read iterate
+                # last n lines and print it
+                for line in (file.readlines() [-linesToRead:]):
+                    print(line, end ='')
+                    d = datetime.strptime(line, self.FAN_EXECUTION_FILE_DATE_FORMAT)
+                    self.debug('Fan register read %s', d)
+                    if (today == d.day()):
+                        self.debug('Fan register found for today %s', d)
+                        todayExecutionList.append(d)
+                    else:
+                        break
+                file.close()
+                return len(todayExecutionList)
+            except Exception as e:
+                self.log.warn('There was an error loading last fan executions. Defaulting to %s', default, e)
+                return default
+        else:
+            self.log.debug('File %s not found, Defaulting to %s', self.PROGRAM_FILE, default)
+            return default
 
