@@ -23,6 +23,7 @@ class StationController:
     DEFAULT_FAN_TICKS: int = 4
     DEFAUL_SENSOR_TICKS: int = 10
     DEFAULT_HUMIDITY_TICKS: int = 2
+    DEFAULT_OXIGENATION_FAN_TICKS: int = 10
 
     TICKS_PER_DAY: int =60*60*24
 
@@ -117,7 +118,7 @@ class StationController:
             # Don't exceed scheduled fans
             if (self.__getFansExecutedToday() < self.parameters.scheduledFansPerDay):
                 self.log.info("Initiating parameterized oxygenation")
-                self.__scheduleFans()
+                self.__scheduleFans(self.DEFAULT_OXIGENATION_FAN_TICKS)
             else:
                 self.log.info("Skipping parameterized oxygenation as %s executions have been executed today", self.parameters.scheduledFansPerDay)
 
