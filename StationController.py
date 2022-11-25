@@ -113,7 +113,7 @@ class StationController:
             self.status.inRange=(t >= self.parameters.MIN_TEMPERATURE and t < self.parameters.MAX_TEMPERATURE) and (h >= self.parameters.MIN_HUMIDITY and h < self.parameters.MAX_HUMIDITY)
 
         # Control parameterized oxigenation
-        if (self.tick%self.parameters.fanCycleDelay == 1):
+        if (self.parameters.scheduledFansPerDay > 0 and self.tick%self.parameters.fanCycleDelay == 1):
             self.log.debug("Fan cycle achieved, checking today's fan executions...")
             # Don't exceed scheduled fans
             if (self.__getFansExecutedToday() < self.parameters.scheduledFansPerDay):

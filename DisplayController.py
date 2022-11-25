@@ -115,7 +115,8 @@ class DisplayController:
 
             if (status.fanScheduledTicks > 0):
                 self.lcd.cursor_pos = (3, 8)
-                self.lcd.write_string('%s:%ss' % (FAN, status.fanScheduledTicks))
+                str='%s:%ss' % (FAN, status.fanScheduledTicks)
+                self.lcd.write_string(str.ljust(5))
             else:
                 self.lcd.cursor_pos = (3, 8)
                 self.lcd.write_string('     ')
