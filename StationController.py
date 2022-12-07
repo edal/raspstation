@@ -114,13 +114,16 @@ class StationController:
 
         # Control parameterized oxigenation
         if (self.parameters.scheduledFansPerDay > 0 and self.tick%self.parameters.fanCycleDelay == 1):
-            self.log.debug("Fan cycle achieved, checking today's fan executions...")
+            self.log.info("Initiating parameterized oxygenation")
+            self.__scheduleFans(self.DEFAULT_OXIGENATION_FAN_TICKS)
+
+            # self.log.debug("Fan cycle achieved, checking today's fan executions...")
             # Don't exceed scheduled fans
-            if (self.__getFansExecutedToday() < self.parameters.scheduledFansPerDay):
-                self.log.info("Initiating parameterized oxygenation")
-                self.__scheduleFans(self.DEFAULT_OXIGENATION_FAN_TICKS)
-            else:
-                self.log.info("Skipping parameterized oxygenation as %s executions have been executed today", self.parameters.scheduledFansPerDay)
+            # if (self.__getFansExecutedToday() < self.parameters.scheduledFansPerDay):
+            #    self.log.info("Initiating parameterized oxygenation")
+            #    self.__scheduleFans(self.DEFAULT_OXIGENATION_FAN_TICKS)
+            # else:
+            #    self.log.info("Skipping parameterized oxygenation as %s executions have been executed today", self.parameters.scheduledFansPerDay)
 
 
     def getExecutionStatus(self):
