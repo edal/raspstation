@@ -16,11 +16,11 @@ from StationParameters import StationParameters
 
 # PARAMETERS
 p1=Program('P1','Initial', StationParameters(24.0, 28.0, 90, 100, 0))
-p2=Program('P2','Primordium', StationParameters(24.0, 28.0, 80, 90, 2))
-p3=Program('P3','Grow', StationParameters(24.0, 28.0, 80, 90, 4))
+p2=Program('P2','Primordium', StationParameters(24.0, 28.0, 90, 100, 2))
+p3=Program('P3','Grow', StationParameters(24.0, 28.0, 90, 100, 4))
 a1=Program('A1','A+: Initial', StationParameters(26.0, 29.0, 90, 100, 0))
-a2=Program('A2','A+: Primordium', StationParameters(26.0, 29.0, 80, 90, 2))
-a3=Program('A3','A+: Grow', StationParameters(26.0, 29.0, 80, 90, 4))
+a2=Program('A2','A+: Primordium', StationParameters(26.0, 29.0, 90, 100, 2))
+a3=Program('A3','A+: Grow', StationParameters(26.0, 29.0, 90, 100, 4))
 
 programs = [p1, p2, p3, a1, a2, a3]
 # HARDWARE CONFIG
