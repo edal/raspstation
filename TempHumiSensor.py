@@ -2,9 +2,6 @@ import time
 
 import smbus2
 
-# Get I2C bus
-bus = smbus2.SMBus(1)
-
 # I2C address of the device
 SHT30_DEFAULT_ADDRESS                = 0x44
 
@@ -24,10 +21,12 @@ SHT30_CMD_HEATERENABLE                = 0x306D # Heater enable command
 SHT30_CMD_HEATERDISABLE                = 0x3066 # Heater disable command
 
 class SHT30():
+    bus: smbus2.SMBus
+
     def __init__(self):
-        self.write_command()
-        time.sleep(0.3)
-        self.read_data()
+        # Get I2C bus
+        self.bus = smbus2.SMBus(1)
+        self.print()
 
     def write_command(self):
         """Select the temperature & humidity command from the given provided values"""
