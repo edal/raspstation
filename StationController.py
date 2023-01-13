@@ -8,6 +8,7 @@ import RPi.GPIO as GPIO
 
 from StationParameters import StationParameters
 from StationStatus import StationStatus
+from TempHumiSensor import SHT30
 
 
 class StationController:
@@ -18,6 +19,7 @@ class StationController:
     FAN_GPIO: int
     FAN_PWM_GPIO: int
     HUMIDIFIER_GPIO: int
+    sensor: SHT30
 
     # Define default times in ticks/cycles (aprox 1 sec)
     DEFAULT_FAN_TICKS: int = 4
@@ -63,6 +65,8 @@ class StationController:
 
         GPIO.setup(self.HUMIDIFIER_GPIO, GPIO.OUT)
         GPIO.output(self.HUMIDIFIER_GPIO, GPIO.LOW)
+
+        self.sensor= SHT30()
 
     def setParameters(self, parameters: StationParameters):
         self.parameters = parameters
@@ -219,8 +223,10 @@ class StationController:
         GPIO.cleanup()
 
     def __getSensorReading(self):
-        sensor=Adafruit_DHT.DHT11
-        return Adafruit_DHT.read_retry(sensor, self.TEMP_GPIO)
+        result = self.sensor.read_data()
+        return result['h'], result['c']
+        #sensor=Adafruit_DHT.DHT11
+        #return Adafruit_DHT.read_retry(sensor, self.TEMP_GPIO)
 
     def __storeFanExecution(self):
         try:
