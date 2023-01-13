@@ -34,6 +34,7 @@ class SHT30():
         self.bus.write_i2c_block_data(SHT30_DEFAULT_ADDRESS, SHT30_MEAS_REP_STRETCH_EN, COMMAND)
 
     def read_data(self):
+        self.write_command()
         """Read data back from device address, 6 bytes
         temp MSB, temp LSB, temp CRC, humidity MSB, humidity LSB, humidity CRC"""
         data = self.bus.read_i2c_block_data(SHT30_DEFAULT_ADDRESS, 0, 6)

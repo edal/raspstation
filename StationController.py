@@ -223,10 +223,8 @@ class StationController:
         GPIO.cleanup()
 
     def __getSensorReading(self):
-        self.sensor.print()
-        return 80.0, 19.5
-        #result = self.sensor.read_data()
-        #return result['h'], result['c']
+        result = self.sensor.read_data()
+        return result['h'], result['c']
 
         # The other sensor, room temp
         #sensor=Adafruit_DHT.DHT11
