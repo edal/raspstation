@@ -31,7 +31,7 @@ class SHT30():
 
     def write_command(self):
         """Select the temperature & humidity command from the given provided values"""
-        COMMAND = [SHT30_MEAS_HIGH_REP_STRETCH_EN]
+        COMMAND = [SHT30_MEAS_LOW_REP_STRETCH_EN]
         bus.write_i2c_block_data(SHT30_DEFAULT_ADDRESS, SHT30_MEAS_REP_STRETCH_EN, COMMAND)
 
     def read_data(self):
