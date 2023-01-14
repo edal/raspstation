@@ -85,7 +85,7 @@ class StationController:
             self.status.previousHumidity = self.status.humidity
             self.status.temperature = t
             self.status.humidity = h
-            self.log.debug('New data read: Temp: %s Humidity: %s', '{:0.1f}'.format(t), '{:.0f}'.format(h))
+            self.log.debug('New data read: Temp: %s Humidity: %s', '{:0.1f}'.format(t), '{:0.1f}'.format(h))
             if (t < self.parameters.MIN_TEMPERATURE):
                 self.log.debug("Temperature is lower than MIN %s", self.parameters.MIN_TEMPERATURE)
                 self.startHeat()

@@ -10,7 +10,7 @@ class StationStatus:
     isHumidifierEnabled: bool
     humidifierScheduledTicks: int
     previousTemperature: float
-    previousHumidity: int
+    previousHumidity: float
     inRange: bool
 
 
