@@ -67,7 +67,7 @@ class DisplayController:
             self.tick=(self.tick+1) % self.MAX_TICKS
 
             t = '{:0.1f}'.format(status.temperature)
-            h = '{:.0f}'.format(status.humidity)
+            h = '{:0.1f}'.format(status.humidity)
 
             tempChar=' '
             if (status.previousTemperature is not None):
@@ -110,7 +110,7 @@ class DisplayController:
             self.lcd.write_string(title_sprite)
             self.lcd.cursor_pos = (1, 0)
             self.lcd.write_string(' ' + TEMP + ' ' + t + CELSIUS + tempChar)
-            self.lcd.write_string('    ')
+            self.lcd.write_string('   ')
             self.lcd.write_string(DROP + ' ' + h + '%' + humiChar)
 
             if (status.fanScheduledTicks > 0):
