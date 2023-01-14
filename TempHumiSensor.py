@@ -26,7 +26,6 @@ class SHT30():
     def __init__(self):
         # Get I2C bus
         self.bus = smbus2.SMBus(1)
-        self.print()
 
     def write_command(self):
         """Select the temperature & humidity command from the given provided values"""
@@ -35,6 +34,7 @@ class SHT30():
 
     def read_data(self):
         self.write_command()
+        time.sleep(0.3)
         """Read data back from device address, 6 bytes
         temp MSB, temp LSB, temp CRC, humidity MSB, humidity LSB, humidity CRC"""
         data = self.bus.read_i2c_block_data(SHT30_DEFAULT_ADDRESS, 0, 6)

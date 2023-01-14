@@ -3,7 +3,7 @@ import logging
 
 class StationStatus:
     temperature: float
-    humidity: int
+    humidity: float
     isFanEnabled: bool
     fanScheduledTicks: int
     isHeatEnabled: bool
