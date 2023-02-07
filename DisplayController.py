@@ -43,7 +43,7 @@ class DisplayController:
         self.__splashScreen()
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.backlightGpio, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.add_event_detect(self.backlightGpio,GPIO.FALLING,callback=self.backlight_button_callback,  bouncetime=100)
+        GPIO.add_event_detect(self.backlightGpio,GPIO.BOTH,callback=self.backlight_button_callback,  bouncetime=200)
 
     # Custom animation to serve as splash screen
     def __splashScreen(self):
@@ -216,7 +216,8 @@ class DisplayController:
 
 
     def toggleBacklight(self):
-        self.lcd.backlight_enabled = not self.lcd.backlight_enabled
+        # self.lcd.backlight_enabled = not self.lcd.backlight_enabled
+        self.lcd.backlight_enabled = not GPIO.input(self.backlightGpio)
 
     def backlight_button_callback(self, channel):
         self.log.debug('Backlight button pressed')
