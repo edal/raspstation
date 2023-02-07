@@ -21,7 +21,7 @@ p3=Program('P3','Grow', StationParameters(24.0, 28.0, 90, 100, 4))
 a1=Program('A1','A+: Initial', StationParameters(26.0, 29.0, 90, 100, 0))
 a2=Program('A2','A+: Primordium', StationParameters(26.0, 29.0, 90, 100, 2))
 a3=Program('A3','A+: Grow', StationParameters(26.0, 29.0, 90, 100, 4))
-nh=Program('!*','No humidity', StationParameters(24.0, 28.0, 0, 100, 0))
+nh=Program('H','Only heat', StationParameters(24.0, 28.0, 0, 100, 0))
 
 programs = [p1, p2, p3, a1, a2, a3, nh]
 # HARDWARE CONFIG
