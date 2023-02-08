@@ -60,8 +60,8 @@ class StationController:
 
         GPIO.setup(self.FAN_GPIO, GPIO.OUT)
         GPIO.output(self.FAN_GPIO, GPIO.LOW)
-        GPIO.setup(self.HEAT_GPIO, GPIO.OUT)
-        GPIO.output(self.HEAT_GPIO, True) # Stop
+        # GPIO.setup(self.HEAT_GPIO, GPIO.OUT)
+        # GPIO.output(self.HEAT_GPIO, True) # Stop
 
         GPIO.setup(self.HUMIDIFIER_GPIO, GPIO.OUT)
         GPIO.output(self.HUMIDIFIER_GPIO, GPIO.LOW)
@@ -190,14 +190,16 @@ class StationController:
     def startHeat(self):
         if (not self.status.isHeatEnabled):
             self.log.debug('Starting heating')
-            GPIO.output(self.HEAT_GPIO, False) # Start
+            GPIO.setup(self.HEAT_GPIO, GPIO.OUT, initial=GPIO.LOW)
+            # GPIO.output(self.HEAT_GPIO, False) # Start
             self.status.isHeatEnabled=True
             self.log.debug('Heating started')
 
     def stopHeat(self):
         if (self.status.isHeatEnabled):
             self.log.debug('Stopping heating')
-            GPIO.output(self.HEAT_GPIO, True) # Stop
+            GPIO.cleanup(self.HEAT_GPIO)
+            #GPIO.output(self.HEAT_GPIO, True) # Stop
             self.status.isHeatEnabled=False
             self.log.debug('Heating stopped')
 
