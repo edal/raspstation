@@ -17,7 +17,7 @@ from StationParameters import StationParameters
 # PARAMETERS
 p1=Program('P1','Initial', StationParameters(22.0, 26.0, 90, 100, 0))
 p2=Program('P2','Primordium', StationParameters(22.0, 26.0, 90, 100, 2))
-p3=Program('P3','Grow', StationParameters(22.0, 26.0, 90, 100, 4))
+p3=Program('P3','Grow', StationParameters(22.0, 26.0, 80, 100, 4))
 nh=Program('H','Only heat', StationParameters(22.0, 26.0, 0, 100, 0))
 
 programs = [p1, p2, p3, nh]
