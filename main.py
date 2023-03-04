@@ -20,7 +20,7 @@ p2=Program('P2','Primordium', StationParameters(23.0, 26.0, 85, 92, 2))
 p3=Program('P3','Grow', StationParameters(23.0, 26.0, 80, 90, 4))
 nh=Program('H','Only heat', StationParameters(22.0, 26.0, 0, 100, 0))
 ff=Program('FF','Force Fans', StationParameters(0.0, 1.0, 0, 10, 10))
-hh=Program('HH','Turbo humidifier', StationParameters(0.0, 1.0, 90, 100, 0, 10))
+hh=Program('HH','Turbo humidifier', StationParameters(0.0, 40.0, 90, 100, 0, 10))
 
 programs = [p1, p2, p3, nh, ff, hh]
 # HARDWARE CONFIG
