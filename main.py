@@ -15,9 +15,9 @@ from StationController import StationController
 from StationParameters import StationParameters
 
 # PARAMETERS
-p1=Program('P1','Initial', StationParameters(22.0, 26.0, 90, 100, 0))
-p2=Program('P2','Primordium', StationParameters(22.0, 26.0, 80, 90, 2))
-p3=Program('P3','Grow', StationParameters(22.0, 26.0, 80, 90, 4))
+p1=Program('P1','Initial', StationParameters(23.0, 26.0, 90, 100, 0))
+p2=Program('P2','Primordium', StationParameters(23.0, 26.0, 85, 92, 2))
+p3=Program('P3','Grow', StationParameters(23.0, 26.0, 80, 90, 4))
 nh=Program('H','Only heat', StationParameters(22.0, 26.0, 0, 100, 0))
 ff=Program('FF','Force Fans', StationParameters(0.0, 1.0, 0, 10, 10))
 

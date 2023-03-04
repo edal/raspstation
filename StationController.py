@@ -24,7 +24,7 @@ class StationController:
     # Define default times in ticks/cycles (aprox 1 sec)
     DEFAULT_FAN_TICKS: int = 10
     DEFAUL_SENSOR_TICKS: int = 10
-    DEFAULT_HUMIDITY_TICKS: int = 2
+    DEFAULT_HUMIDITY_TICKS: int = 3
     DEFAULT_OXIGENATION_FAN_TICKS: int = 10
 
     TICKS_PER_DAY: int =60*60*24
