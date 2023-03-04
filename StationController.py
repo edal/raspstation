@@ -24,7 +24,7 @@ class StationController:
     # Define default times in ticks/cycles (aprox 1 sec)
     DEFAULT_FAN_TICKS: int = 10
     DEFAUL_SENSOR_TICKS: int = 10
-    DEFAULT_HUMIDITY_TICKS: int = 3
+    DEFAULT_HUMIDITY_TICKS: int = 2
     DEFAULT_OXIGENATION_FAN_TICKS: int = 10
 
     TICKS_PER_DAY: int =60*60*24
@@ -145,7 +145,7 @@ class StationController:
 
     def __scheduleHumidifier(self, duration: int = -1):
         if (duration <= 0):
-            duration = self.DEFAULT_HUMIDITY_TICKS
+            duration = self.parameters.humidifierTicks
 
         # Only when there's no current schedule
         if (self.status.humidifierScheduledTicks == 0):

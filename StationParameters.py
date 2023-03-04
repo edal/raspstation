@@ -8,8 +8,9 @@ class StationParameters:
     MAX_HUMIDITY: int
     MIN_HUMIDITY: int
     scheduledFansPerDay: int
+    humidifierTicks: int
 
-    def __init__(self, minTemp: float, maxTemp: float, minHumi: int, maxHumi:int, scheduledFansPerDay:int=0):
+    def __init__(self, minTemp: float, maxTemp: float, minHumi: int, maxHumi:int, scheduledFansPerDay:int=0, humidifierTicks:int=2):
         logging.debug("Initializing StationParameters")
         self.MAX_HUMIDITY=maxHumi
         self.MIN_HUMIDITY=minHumi
@@ -20,3 +21,4 @@ class StationParameters:
             self.fanCycleDelay = 0
         else:
             self.fanCycleDelay = ceil(86400 / scheduledFansPerDay)
+        self.humidifierTicks = humidifierTicks
