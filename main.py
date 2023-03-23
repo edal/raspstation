@@ -18,11 +18,12 @@ from StationParameters import StationParameters
 p1=Program('P1','Initial', StationParameters(23.0, 26.0, 90, 100, 0))
 p2=Program('P2','Primordium', StationParameters(23.0, 26.0, 85, 100, 2))
 p3=Program('P3','Grow', StationParameters(23.0, 26.0, 80, 92, 4))
+y1=Program('Y1','Yeti.Initial', StationParameters(23.0, 26.0, 97, 100, 0))
 nh=Program('H','Only heat', StationParameters(22.0, 26.0, 0, 100, 0))
 ff=Program('FF','Force Fans', StationParameters(0.0, 40.0, 0, 10, 10))
 hh=Program('HH','Turbo humidifier', StationParameters(0.0, 40.0, 99, 100, 0, 10))
 
-programs = [p1, p2, p3, nh, ff, hh]
+programs = [p1, p2, p3, y1, nh, ff, hh]
 # HARDWARE CONFIG
 TEMP_GPIO=23 # BOARD16
 HEAT_GPIO = 24 # BOARD18
